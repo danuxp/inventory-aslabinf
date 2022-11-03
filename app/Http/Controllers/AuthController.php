@@ -27,12 +27,21 @@ class AuthController extends Controller
 
     public function loginValid(Request $request)
     {
-        $request->validate([
+        $rules = [
             'username' => 'required',
             'password' => 'required'
+        ];
 
-        ]);
-        // return back()->withInput();
+        $message = [
+            'username.required' => 'Username tidak boleh kosong',
+            'password.required' => 'Password tidak boleh kosong',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+ 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
     }
 
     public function registerValid(Request $request)
