@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -63,17 +64,23 @@ class AuthController extends Controller
             'password2.required' => 'Konfirmasi password tidak boleh kosong',
             'password2.same' => 'Konfirmasi password tidak sesuai',
         ];
-    //     $request->validate([
-    //     ],
-    //     [
 
-    //     ]
-    // );
         $validator = Validator::make($request->all(), $rules, $message);
  
-        //cek validasi
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
+
+        $data = [
+            'nim' => $request->input('nim'),
+            'nama_lengkap' => $request->input('nama_lengkap'),
+            'nama_cantik' => $request->input('nama_cantik'),
+            'angkatan' => $request->input('angkatan'),
+            'kelamin' => $request->input('kelamin'),
+            'email' => $request->input('email'),
+            'username' => $request->input('username'),
+            'password' => Hash::make($request->input('password')),
+        ];
+        dd($data);
     }
 }
