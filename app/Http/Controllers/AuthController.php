@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Angkatan;
+use App\Models\Biodata;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +24,7 @@ class AuthController extends Controller
     {
         $data = [
             'title' => 'Register',
+            'angkatan' => Angkatan::all()
         ];
         return view('auth.register', $data);
     }
@@ -44,23 +48,25 @@ class AuthController extends Controller
         }
     }
 
-    public function registerValid(Request $request)
+    public function store(Request $request)
     {
         $rules = [
-            'nim' => 'required|numeric',
+            'nim' => 'required|numeric|max_digits:13|unique:users,nim',
             'nama_lengkap' => 'required',
             'nama_cantik' => 'required',
             'angkatan' => 'required',
             'kelamin' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email:dns',
             'username' => 'required',
-            'password' => 'required|min:8',
+            'password' => 'required|min:6',
             'password2' => 'required|same:password'
         ];
 
         $message = [
             'nim.required' => 'Nim tidak boleh kosong',
             'nim.numeric' => 'Nim tidak boleh karakter',
+            'nim.max_digits' => 'Maksimal nim 13 angka',
+            'nim.unique' => 'Nim sudah terdaftar',
             'nama_lengkap.required' => 'Nama lengkap tidak boleh kosong',
             'nama_cantik.required' => 'Nama cantik tidak boleh kosong',
             'angkatan.required' => 'Angkatan tidak boleh kosong',
@@ -69,27 +75,42 @@ class AuthController extends Controller
             'email.email' => 'Email tidak valid',
             'username.required' => 'Username tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
-            'password.min' => 'Password harus 8 karakter',
+            'password.min' => 'Password harus 6 karakter',
             'password2.required' => 'Konfirmasi password tidak boleh kosong',
             'password2.same' => 'Konfirmasi password tidak sesuai',
         ];
 
-        $validator = Validator::make($request->all(), $rules, $message);
+
+        $validator = Validator::make($rules, $message);
  
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
-        }
+        } 
 
-        $data = [
-            'nim' => $request->input('nim'),
-            'nama_lengkap' => $request->input('nama_lengkap'),
-            'nama_cantik' => $request->input('nama_cantik'),
-            'angkatan' => $request->input('angkatan'),
-            'kelamin' => $request->input('kelamin'),
-            'email' => $request->input('email'),
-            'username' => $request->input('username'),
-            'password' => Hash::make($request->input('password')),
+        $dataBio = [
+            'nim' => $request->nim,
+            'nama_lengkap' => strtoupper($request->nama_lengkap),
+            'nama_cantik' => strtoupper($request->nama_cantik),
+            'angkatan' => $request->angkatan,
+            'jenis_kelamin' => $request->kelamin,
+            'email' => $request->email,
         ];
-        dd($data);
+
+        $dataUser = [
+            'nim' => $request->nim,
+            'username' => $request->username,
+            'role' => 2,
+            'password' => Hash::make($request->password)
+        ];
+
+        if(User::create($dataUser) == true) {
+            Biodata::create($dataBio);
+            session()->flash('notif-success');
+            return redirect()->to('/login');
+        } else {
+            session()->flash('notif-error');
+            return redirect()->back();
+        }
+       
     }
 }

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AngkatanController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserLoginController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,19 +17,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('tes', function () {
-    return view('tes', ['title' => 'tes']);
-});
-
-Route::get('user-login', [UserLoginController::class, 'index']);
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Auth Route
-Route::get('login', [AuthController::class, 'index']);
+Route::get('/', [AuthController::class, 'index']);
 Route::get('register', [AuthController::class, 'register']);
 
-Route::post('/register-valid', [AuthController::class, 'registerValid']);
+Route::post('/register-valid', [AuthController::class, 'store']);
 Route::post('/login-valid', [AuthController::class, 'loginValid']);
+
+
+
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index']);
+
+
+// Angkatan
+Route::get('/angkatan', [AngkatanController::class, 'index']);
+
+

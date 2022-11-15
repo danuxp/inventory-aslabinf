@@ -47,8 +47,7 @@
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" id="sidebariconlist-1" name="menu-list-icon" class="custom-control-input"
                         value="icon-list-style-1" checked="">
-                    <label class="custom-control-label" for="sidebariconlist-1"><i
-                            class="ion-minus-round"></i></label>
+                    <label class="custom-control-label" for="sidebariconlist-1"><i class="ion-minus-round"></i></label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" id="sidebariconlist-2" name="menu-list-icon" class="custom-control-input"
@@ -105,7 +104,13 @@
                         <span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
                     </a>
                 </li>
-                
+
+                <li>
+                    <a href="/angkatan" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-house-1"></span><span class="mtext">Angkatan</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>

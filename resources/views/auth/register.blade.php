@@ -11,7 +11,7 @@
         </div>
         <div class="login-menu">
             <ul>
-                <li><a href="{{ url('login') }}">Login</a></li>
+                <li><a href="/">Login</a></li>
             </ul>
         </div>
     </div>
@@ -34,9 +34,8 @@
                         <div class="form-group">
                             <label class="form-control-label">Nim</label>
                             <input type="text" class="form-control @error('nim') form-control-danger @enderror"
-                                name="nim" placeholder="Masukkan Nim">
+                                name="nim" placeholder="Masukkan Nim" value="{{ old('nim') }}" required>
                             @error('nim')
-
                             <div class="form-control-feedback has-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -44,9 +43,9 @@
                         <div class="form-group">
                             <label class="form-control-label">Nama Lengkap</label>
                             <input type="text" class="form-control @error('nama_lengkap') form-control-danger @enderror"
-                                name="nama_lengkap" placeholder="Masukkan Nama Lengkap">
+                                name="nama_lengkap" placeholder="Masukkan Nama Lengkap"
+                                value="{{ old('nama_lengkap') }}" required>
                             @error('nama_lengkap')
-
                             <div class="form-control-feedback has-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -54,9 +53,9 @@
                         <div class="form-group">
                             <label class="form-control-label">Nama Cantik</label>
                             <input type="text" class="form-control @error('nama_cantik') form-control-danger @enderror"
-                                name="nama_cantik" placeholder="Masukkan Nama Cantik">
+                                name="nama_cantik" placeholder="Masukkan Nama Cantik" value="{{ old('nama_cantik') }}"
+                                required>
                             @error('nama_cantik')
-
                             <div class="form-control-feedback has-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -64,7 +63,8 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="form-control-label">Angkatan</label>
-                                <select class="form-control selectpicker" title="Pilih Angkatan" name="angkatan">
+                                <select class="form-control selectpicker" title="Pilih Angkatan" name="angkatan"
+                                    required>
                                     <option value="1">Option 1</option>
                                     <option value="2">Option 2</option>
                                     <option value="3">Option 3</option>
@@ -97,30 +97,26 @@
                         <div class="form-group">
                             <label class="form-control-label">Email</label>
                             <input type="email" class="form-control @error('email') form-control-danger @enderror"
-                                name="email" placeholder="Masukkan Email">
+                                name="email" placeholder="Masukkan Email" value="{{ old('email') }}" required>
                             @error('email')
                             <div class="form-control-feedback has-danger">{{ $message }}</div>
                             @enderror
-
                         </div>
 
                         <div class="form-group">
                             <label class="form-control-label">Username</label>
                             <input type="text" class="form-control @error('username') form-control-danger @enderror"
-                                name="username" placeholder="Masukkan Username">
+                                name="username" placeholder="Masukkan Username" value="{{ old('username') }}" required>
                             @error('username')
-
                             <div class="form-control-feedback has-danger">{{ $message }}</div>
                             @enderror
-
                         </div>
 
                         <div class="form-group">
                             <label class="form-control-label">Password</label>
                             <input type="password" class="form-control @error('password') form-control-danger @enderror"
-                                name="password" placeholder="**********">
+                                name="password" placeholder="**********" required>
                             @error('password')
-
                             <div class="form-control-feedback has-danger">{{ $message }}</div>
                             @enderror
 
@@ -130,9 +126,8 @@
                             <label class="form-control-label">Konfirmasi Password</label>
                             <input type="password"
                                 class="form-control @error('password2') form-control-danger @enderror" name="password2"
-                                placeholder="**********">
+                                placeholder="**********" required>
                             @error('password2')
-
                             <div class="form-control-feedback has-danger">{{ $message }}</div>
                             @enderror
 
@@ -145,8 +140,7 @@
                                 </div>
                                 <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
                                 <div class="input-group mb-0">
-                                    <a class="btn btn-outline-primary btn-lg btn-block"
-                                        href="{{ url('register') }}">Click To Login</a>
+                                    <a class="btn btn-outline-primary btn-lg btn-block" href="/">Click To Login</a>
                                 </div>
                             </div>
                         </div>
@@ -156,4 +150,20 @@
         </div>
     </div>
 </div>
+
+@if (session()->get('notif-error'))
+<script>
+    swal(
+                {
+                    title: 'Good job!',
+                    text: 'You clicked the button!',
+                    type: 'errpr',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger'
+                }
+            );
+</script>
+@endif
+
 @endsection

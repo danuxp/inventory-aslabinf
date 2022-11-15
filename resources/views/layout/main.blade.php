@@ -27,24 +27,24 @@
 </head>
 
 <body>
-	{{-- Pre Loader  --}}
-    @include('partials.preloader')
+	{{-- Pre Loader --}}
+	@include('partials.preloader')
 	{{-- Header Component --}}
-    @include('partials.header')
+	@include('partials.header')
 
 	{{-- Side Bar Component --}}
-    @include('partials.sidebar')
+	@include('partials.sidebar')
 
 	<div class="main-container">
 		<div class="pd-ltr-20">
 			@yield('content')
 
-            {{-- Footer Component --}}
+			{{-- Footer Component --}}
 			@include('partials.footer')
 		</div>
 	</div>
 
-	<!-- js -->
+	{{-- Js --}}
 	<script src="vendors/scripts/core.js"></script>
 	<script src="vendors/scripts/script.min.js"></script>
 	<script src="vendors/scripts/process.js"></script>
@@ -55,6 +55,9 @@
 	<script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 	<script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 	<script src="vendors/scripts/dashboard.js"></script>
+
+
+
 </body>
 
 </html>

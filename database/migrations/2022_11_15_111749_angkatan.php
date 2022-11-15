@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('nim', 13)->unique();
-            $table->string('username', 30);
-            $table->text('password');
-            $table->string('role', 2);
-            // $table->rememberToken();
+        Schema::create('angkatans', function (Blueprint $table) {
+            $table->id('id_angkatan');
+            $table->string('angkatan_ke', 3);
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('angkatans');
     }
 };
