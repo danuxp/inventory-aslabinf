@@ -4,7 +4,6 @@ use App\Http\Controllers\AngkatanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +34,8 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 
 
 // Angkatan
-Route::get('/angkatan', [AngkatanController::class, 'index']);
+// Route::get('/angkatan', [AngkatanController::class, 'index']);
+// Route::post('/tambah-angkatan', [AngkatanController::class, 'store']);
+Route::resource('angkatan', AngkatanController::class);
 
 

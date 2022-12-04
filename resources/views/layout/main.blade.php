@@ -24,11 +24,17 @@
 	<link rel="stylesheet" type="text/css" href="src/plugins/datatables/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
 
+	{{-- Sweet Alert --}}
+	{{--
+	<link rel="stylesheet" type="text/css" href="src/plugins/sweetalert2/sweetalert2.css">
+	<script src="src/plugins/sweetalert2/sweetalert2.all.js"></script> --}}
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+		integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </head>
 
 <body>
 	{{-- Pre Loader --}}
-	@include('partials.preloader')
+	{{-- @include('partials.preloader') --}}
 	{{-- Header Component --}}
 	@include('partials.header')
 
@@ -44,6 +50,8 @@
 		</div>
 	</div>
 
+	@include('sweetalert::alert')
+
 	{{-- Js --}}
 	<script src="vendors/scripts/core.js"></script>
 	<script src="vendors/scripts/script.min.js"></script>
@@ -54,8 +62,8 @@
 	<script src="src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 	<script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 	<script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
-	<script src="vendors/scripts/dashboard.js"></script>
-
+	{{-- <script src="vendors/scripts/dashboard.js"></script> --}}
+	<script src="vendors/scripts/datatable-setting.js"></script>
 
 
 </body>
