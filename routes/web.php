@@ -3,6 +3,7 @@
 use App\Http\Controllers\AngkatanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataAjaxController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,8 +35,20 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 
 
 // Angkatan
+Route::controller(AngkatanController::class)->group(function() {
+    Route::get('angkatan', 'index');
+    Route::post('tambah-angkatan', 'store');
+    Route::post('edit-angkatan', 'update');
+    Route::post('hapus-angkatan', 'destroy');
+});
 // Route::get('/angkatan', [AngkatanController::class, 'index']);
 // Route::post('/tambah-angkatan', [AngkatanController::class, 'store']);
-Route::resource('angkatan', AngkatanController::class);
+// Route::resource('angkatan', AngkatanController::class);
 
 
+// Route get data ajax
+Route::controller(DataAjaxController::class)->group(function() {
+    Route::post('getIdAngkatan', 'getIdAngkatan');
+    Route::get('getDataAngkatan', 'getDataAngkatan');
+
+});

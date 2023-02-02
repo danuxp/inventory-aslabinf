@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Angkatan;
 use Alert;
+use Illuminate\Console\View\Components\Alert as ComponentsAlert;
+use Illuminate\Support\Js;
+use RealRashid\SweetAlert\Facades\Alert as FacadesAlert;
 
 class AngkatanController extends Controller
 {
@@ -98,7 +101,7 @@ class AngkatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $rules = [
             'edit-angkatan' => 'required|numeric'
@@ -114,6 +117,22 @@ class AngkatanController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
+
+        $data = [
+            'angkatan_ke' => $request->angkatan
+        ];
+
+        $angkatan = Angkatan::find($request->id);
+        $result = Angkatan::where('id_angkatan', $angkatan->id_angkatan)->update($data);
+        if($result == true) {
+            Alert::success('Berhasil', 'Data Berhasil Diedit');
+            return redirect()->back();
+        } else {
+            Alert::warning('Peringatan', 'Data Gagal Diedit');
+            return redirect()->back();
+        }
+        
+        // return response()->json($data);
     }
 
     /**
@@ -122,10 +141,17 @@ class AngkatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Angkatan $angkatan)
+    public function destroy(Request $request)
     {
-        $angkatan->delete();
-        Alert::success('Berhasil', 'Data Berhasil Dihapus');
-        return redirect()->back();
+        $id = $request->id; 
+        $data = Angkatan::findOrFail($id);
+        if($data == true) {
+            $data->delete();
+            Alert::success('Berhasil', 'Data Berhasil Dihapus');
+            return redirect()->back();
+        } else {
+            Alert::warning('Peringatan', 'Data Gagal Dihapus');
+            return redirect()->back();
+        }
     }
 }
