@@ -62,7 +62,7 @@
         <div class="form-group">
             <label>Angkatan</label>
             <input class="form-control @error('angkatan') form-control-danger @enderror" type="text"
-                placeholder="Masukkan Angkatan Ke" name="angkatan">
+                placeholder="Masukkan Angkatan Ke" name="angkatan" required>
 
             @error('angkatan')
             <div class="form-control-feedback has-danger">{{ $message }}</div>
@@ -110,10 +110,6 @@
                                 data-toggle="tooltip" title="Hapus" data-placement="bottom"></i></button>
                     </td>
                 </tr>
-
-
-
-
 
                 @endforeach
 

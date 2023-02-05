@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Angkatan;
 use Alert;
-use Illuminate\Console\View\Components\Alert as ComponentsAlert;
-use Illuminate\Support\Js;
-use RealRashid\SweetAlert\Facades\Alert as FacadesAlert;
 
 class AngkatanController extends Controller
 {
@@ -23,17 +20,8 @@ class AngkatanController extends Controller
             'title' => 'Angkatan',
             'angkatan' => Angkatan::all()
         ];
-        return view('angkatan.index', $data); 
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('angkatan.index', $data); 
     }
 
     /**
@@ -70,28 +58,6 @@ class AngkatanController extends Controller
             Alert::error('Gagal', 'Data Gagal Ditambahkan');
             return redirect()->back();
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

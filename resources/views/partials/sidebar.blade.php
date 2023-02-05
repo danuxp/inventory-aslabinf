@@ -107,7 +107,13 @@
 
                 <li>
                     <a href="/angkatan" class="dropdown-toggle no-arrow">
-                        <span class="micon dw dw-house-1"></span><span class="mtext">Angkatan</span>
+                        <i class="micon dw dw-down-align1"></i><span class="mtext">Angkatan</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/divisi" class="dropdown-toggle no-arrow">
+                        <i class="micon dw dw-chat-2"></i><span class="mtext">Divisi</span>
                     </a>
                 </li>
 

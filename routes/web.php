@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AngkatanController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataAjaxController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DivisiController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,9 +43,13 @@ Route::controller(AngkatanController::class)->group(function() {
     Route::post('edit-angkatan', 'update');
     Route::post('hapus-angkatan', 'destroy');
 });
-// Route::get('/angkatan', [AngkatanController::class, 'index']);
-// Route::post('/tambah-angkatan', [AngkatanController::class, 'store']);
-// Route::resource('angkatan', AngkatanController::class);
+
+// Divisi
+Route::controller(DivisiController::class)->group(function() {
+    Route::get('divisi', 'index');
+    Route::post('tambah-divisi', 'store');
+
+});
 
 
 // Route get data ajax
