@@ -16,7 +16,7 @@
                     @csrf
                     <div class="form-group">
                         <label>Angkatan</label>
-                        <input class="form-control" type="text" name="edit-angkatan" id="angkatan" required>
+                        <input class="form-control" type="text" name="edit_angkatan" id="angkatan" required>
                     </div>
 
                     <input type="hidden" name="id" id="id_angkatan">

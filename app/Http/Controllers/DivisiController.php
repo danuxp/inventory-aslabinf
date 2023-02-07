@@ -20,18 +20,8 @@ class DivisiController extends Controller
             'title' => 'Divisi',
             'divisi' => Divisi::all()
         ];
-        
+              
         return view('divisi.index', $data); 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -48,7 +38,7 @@ class DivisiController extends Controller
 
         $message = [
             'divisi.required' => 'Kolom divisi harus diisi',
-            // 'divisi.string' => 'Inputan harus berupa string'
+            // 'divisi.regex' => 'Inputan harus berupa string'
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
@@ -80,27 +70,6 @@ class DivisiController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Divisi  $divisi
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Divisi $divisi)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Divisi  $divisi
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Divisi $divisi)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -111,7 +80,38 @@ class DivisiController extends Controller
      */
     public function update(Request $request, Divisi $divisi)
     {
-        //
+        $rules = [
+            'edit_divisi' => 'required'
+        ];
+
+        $message = [
+            'edit_divisi.required' => 'Kolom angkatan harus diisi',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+ 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+
+        $data = [
+            'nama_divisi' => strtoupper($request->edit_divisi)
+        ];
+
+        $cek_nama = $divisi->where('nama_divisi', strtoupper($request->edit_divisi))->get();
+        
+        $result = $divisi->where('id_divisi', $request->id)->update($data);
+        
+        if(count($cek_nama) == 1) {
+            Alert::warning('Peringatan', 'Maaf Data Sudah Ada');
+            return redirect()->back();
+        } else if($result == true) {
+            Alert::success('Berhasil', 'Data Berhasil Diedit');
+            return redirect()->back();
+        } else {
+            Alert::warning('Peringatan', 'Data Gagal Diedit');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -120,8 +120,17 @@ class DivisiController extends Controller
      * @param  \App\Models\Divisi  $divisi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Divisi $divisi)
+    public function destroy(Request $request, Divisi $divisi)
     {
-        //
+        $id = $request->id; 
+        $result = $divisi->findOrFail($id);
+        if($result == true) {
+            $result->delete();
+            Alert::success('Berhasil', 'Data Berhasil Dihapus');
+            return redirect()->back();
+        } else {
+            Alert::warning('Peringatan', 'Data Gagal Dihapus');
+            return redirect()->back();
+        }
     }
 }

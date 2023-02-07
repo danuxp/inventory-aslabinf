@@ -106,13 +106,13 @@
                 </li>
 
                 <li>
-                    <a href="/angkatan" class="dropdown-toggle no-arrow">
+                    <a href="/angkatan" class="dropdown-toggle no-arrow {{ request()->is('angkatan') ? 'active':'' }}">
                         <i class="micon dw dw-down-align1"></i><span class="mtext">Angkatan</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/divisi" class="dropdown-toggle no-arrow">
+                    <a href="/divisi" class="dropdown-toggle no-arrow {{ request()->is('divisi') ? 'active' : '' }}">
                         <i class="micon dw dw-chat-2"></i><span class="mtext">Divisi</span>
                     </a>
                 </li>

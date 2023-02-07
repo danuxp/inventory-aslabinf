@@ -48,13 +48,18 @@ Route::controller(AngkatanController::class)->group(function() {
 Route::controller(DivisiController::class)->group(function() {
     Route::get('divisi', 'index');
     Route::post('tambah-divisi', 'store');
-
+    Route::post('edit-divisi', 'update');
+    Route::post('hapus-divisi', 'destroy');
 });
 
 
 // Route get data ajax
 Route::controller(DataAjaxController::class)->group(function() {
+    // angkatan
     Route::post('getIdAngkatan', 'getIdAngkatan');
     Route::get('getDataAngkatan', 'getDataAngkatan');
+
+    // divisi
+    Route::post('getIdDivisi', 'getIdDivisi');
 
 });

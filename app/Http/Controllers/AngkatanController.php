@@ -67,15 +67,15 @@ class AngkatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Angkatan $angkatan)
     {
         $rules = [
-            'edit-angkatan' => 'required|numeric'
+            'edit_angkatan' => 'required|numeric'
         ];
 
         $message = [
-            'edit-angkatan.required' => 'Kolom angkatan harus diisi',
-            'edit-angkatan.numeric' => 'Inputan harus berupa angka'
+            'edit_angkatan.required' => 'Kolom angkatan harus diisi',
+            'edit_angkatan.numeric' => 'Inputan harus berupa angka'
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
@@ -85,11 +85,11 @@ class AngkatanController extends Controller
         }
 
         $data = [
-            'angkatan_ke' => $request->angkatan
+            'angkatan_ke' => $request->edit_angkatan
         ];
 
-        $angkatan = Angkatan::find($request->id);
-        $result = Angkatan::where('id_angkatan', $angkatan->id_angkatan)->update($data);
+        $result = $angkatan->where('id_angkatan', $request->id)->update($data);
+        
         if($result == true) {
             Alert::success('Berhasil', 'Data Berhasil Diedit');
             return redirect()->back();
@@ -107,10 +107,10 @@ class AngkatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Angkatan $angkatan)
     {
         $id = $request->id; 
-        $data = Angkatan::findOrFail($id);
+        $data = $angkatan->findOrFail($id);
         if($data == true) {
             $data->delete();
             Alert::success('Berhasil', 'Data Berhasil Dihapus');

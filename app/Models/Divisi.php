@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Divisi extends Model
 {
     use HasFactory;
-    // protected $primaryKey = 'kd_divisi';
+    protected $primaryKey = 'id_divisi';
     protected $fillable = ['kd_divisi', 'nama_divisi'];
 }
