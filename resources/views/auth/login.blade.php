@@ -72,18 +72,4 @@
     </div>
 </div>
 
-@if (session()->has('notif-success'))
-<script>
-    swal(
-                {
-                    title: 'Good job!',
-                    text: 'Registration is successful, please login!',
-                    type: 'success',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success'
-                }
-            );
-</script>
-@endif
-
 @endsection

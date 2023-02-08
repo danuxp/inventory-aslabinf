@@ -117,6 +117,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="/kode-asisten"
+                        class="dropdown-toggle no-arrow {{ request()->is('kode-asisten') ? 'active' : '' }}">
+                        <i class="micon dw dw-user-2"></i>
+                        <span class="mtext">Kode Asisten</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

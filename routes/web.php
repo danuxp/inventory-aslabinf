@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\AngkatanController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AngkatanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataAjaxController;
 use App\Http\Controllers\DivisiController;
-
+use App\Http\Controllers\KodeAsistenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +52,10 @@ Route::controller(DivisiController::class)->group(function() {
     Route::post('hapus-divisi', 'destroy');
 });
 
+// Kode Asisten
+Route::controller(KodeAsistenController::class)->group(function() {
+    Route::get('kode-asisten', 'index');
+});
 
 // Route get data ajax
 Route::controller(DataAjaxController::class)->group(function() {

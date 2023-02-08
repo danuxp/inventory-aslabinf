@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Alert;
 
 class AuthController extends Controller
 {
@@ -105,10 +106,12 @@ class AuthController extends Controller
 
         if(User::create($dataUser) == true) {
             Biodata::create($dataBio);
-            session()->flash('notif-success');
-            return redirect()->to('/login');
+            // session()->flash('notif-success');
+            Alert::success('Berhasil', 'Registrasi Berhasil, silahkan login!');
+            return redirect()->to('/');
         } else {
-            session()->flash('notif-error');
+            // session()->flash('notif-error');
+            Alert::warning('Peringatan!', 'Registrasi Gagal, silahkan coba lagi');
             return redirect()->back();
         }
        

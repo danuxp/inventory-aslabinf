@@ -65,9 +65,9 @@
                                 <label class="form-control-label">Angkatan</label>
                                 <select class="form-control selectpicker" title="Pilih Angkatan" name="angkatan"
                                     required>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                    @foreach ($angkatan as $row)
+                                    <option>{{ $row->angkatan_ke }}</option>
+                                    @endforeach
                                 </select>
                                 @error('angkatan')
                                 <div class="form-control-feedback has-danger">{{ $message }}</div>
