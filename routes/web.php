@@ -55,6 +55,7 @@ Route::controller(DivisiController::class)->group(function() {
 // Kode Asisten
 Route::controller(KodeAsistenController::class)->group(function() {
     Route::get('kode-asisten', 'index');
+    Route::post('tambah-kode', 'store');
 });
 
 // Route get data ajax
