@@ -137,7 +137,6 @@
 
             },
             success: function(res) {
-                console.log(res);
                 $('#edit_divisi').val(res.data['nama_divisi']);
                 $('#id_divisi').val(res.data['id_divisi']);
 

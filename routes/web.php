@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AngkatanController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataAjaxController;
 use App\Http\Controllers\DivisiController;
@@ -56,6 +57,13 @@ Route::controller(DivisiController::class)->group(function() {
 Route::controller(KodeAsistenController::class)->group(function() {
     Route::get('kode-asisten', 'index');
     Route::post('tambah-kode', 'store');
+    Route::post('edit-kode', 'update');
+    Route::post('hapus-kode', 'destroy');
+});
+
+// Profile
+Route::controller(BiodataController::class)->group(function() {
+    Route::get('profile', 'profile');
 });
 
 // Route get data ajax
@@ -66,5 +74,8 @@ Route::controller(DataAjaxController::class)->group(function() {
 
     // divisi
     Route::post('getIdDivisi', 'getIdDivisi');
+
+    // kode asisten
+    Route::post('getIdKode', 'getIdKode');
 
 });
