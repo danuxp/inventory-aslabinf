@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataAjaxController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\KodeAsistenController;
+use App\Http\Controllers\NamaLabController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,14 @@ Route::controller(BiodataController::class)->group(function() {
     Route::get('profile', 'profile');
 });
 
+// Nama Lab
+Route::controller(NamaLabController::class)->group(function() {
+    Route::get('nama-lab', 'index');
+    Route::post('tambah-lab', 'store');
+    Route::post('edit-lab', 'update');
+    Route::post('hapus-lab', 'destroy');
+});
+
 // Route get data ajax
 Route::controller(DataAjaxController::class)->group(function() {
     // angkatan
@@ -77,5 +86,8 @@ Route::controller(DataAjaxController::class)->group(function() {
 
     // kode asisten
     Route::post('getIdKode', 'getIdKode');
+
+    // nama lab
+    Route::post('getIdLab', 'getIdLab');
 
 });

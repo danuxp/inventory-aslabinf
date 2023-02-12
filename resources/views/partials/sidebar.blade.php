@@ -124,6 +124,14 @@
                         <span class="mtext">Kode Asisten</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="/nama-lab"
+                        class="dropdown-toggle no-arrow {{ request()->is('nama-lab') ? 'active' : '' }}">
+                        <i class="micon dw dw-list"></i>
+                        <span class="mtext">Nama Lab</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

@@ -7,6 +7,8 @@ use App\Models\Angkatan;
 use App\Models\Biodata;
 use App\Models\Divisi;
 use App\Models\KodeAsisten;
+use App\Models\NamaLab;
+
 
 class DataAjaxController extends Controller
 {
@@ -35,6 +37,13 @@ class DataAjaxController extends Controller
     {
         $id = $request->id;
         $data['data'] = $kodeAsisten->getJoinBio($id);
+        return response()->json($data);
+    }
+
+    public function getIdLab(Request $request)
+    {
+        $id = $request->id;
+        $data['data'] = NamaLab::find($id);
         return response()->json($data);
     }
 }
