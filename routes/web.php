@@ -8,7 +8,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataAjaxController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\KodeAsistenController;
+use App\Http\Controllers\LapRapatController;
 use App\Http\Controllers\NamaLabController;
+use App\Http\Controllers\PjLabController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +76,18 @@ Route::controller(NamaLabController::class)->group(function() {
     Route::post('tambah-lab', 'store');
     Route::post('edit-lab', 'update');
     Route::post('hapus-lab', 'destroy');
+});
+
+// Pj Lab
+Route::controller(PjLabController::class)->group(function() {
+    Route::get('pj-lab', 'index');
+    Route::post('tambah-pjlab', 'store');
+});
+
+// Lap Rapat
+Route::controller(LapRapatController::class)->group(function() {
+    Route::get('lap-rapat', 'index');
+    Route::post('tambah-lap-rapat', 'store');
 });
 
 // Route get data ajax

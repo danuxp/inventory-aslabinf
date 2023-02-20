@@ -132,6 +132,22 @@
                         <span class="mtext">Nama Lab</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="/pj-lab" class="dropdown-toggle no-arrow {{ request()->is('pj-lab') ? 'active' : '' }}">
+                        <i class="micon dw dw-key"></i>
+                        <span class="mtext">Pj Lab</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/lap-rapat"
+                        class="dropdown-toggle no-arrow {{ request()->is('lap-rapat') ? 'active' : '' }}">
+                        <i class="micon dw dw-notebook"></i>
+                        <span class="mtext">Lap. Rapat</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>

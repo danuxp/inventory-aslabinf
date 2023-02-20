@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nama_labs', function (Blueprint $table) {
+        Schema::create('pj_labs', function (Blueprint $table) {
             $table->id();
+            $table->text('nim');
+            $table->integer('lab_id');
+            $table->integer('status', 1);
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nama_labs');
+        Schema::dropIfExists('pj_labs');
     }
 };
