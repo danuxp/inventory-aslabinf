@@ -105,4 +105,8 @@ Route::controller(DataAjaxController::class)->group(function() {
     // nama lab
     Route::post('getIdLab', 'getIdLab');
 
+    // lap rapat
+    Route::post('getIdLapRapat', 'getIdLapRapat');
+    
+
 });

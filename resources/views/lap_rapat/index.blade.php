@@ -47,8 +47,8 @@
                     <div class="form-group mt-4">
                         <div class="html-editor">
                             <label>Catatan Rapat</label>
-                            <textarea class="textarea_editor form-control border-radius-0" placeholder="Enter text ..."
-                                name="catatan"></textarea>
+                            <textarea class="form-control border-radius-0 edit_textarea_editor"
+                                placeholder="Enter text ..." name="catatan"></textarea>
                         </div>
                     </div>
 
@@ -88,6 +88,26 @@
     </div>
 </div>
 
+{{-- view catatan modal --}}
+<div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Peringatan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="view-catatan"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                <button type="submit" class="btn btn-primary">Ya</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="pd-20 card-box mb-30">
     <h4 class="h4 text-blue">Form Tambah Laporan</h4>
     <form action="/tambah-lap-rapat" method="post">
@@ -95,24 +115,33 @@
         <div class="form-row">
             <div class="col-6">
                 <label>Tanggal Rapat</label>
-                <input class="form-control" placeholder="Masukkan Tanggal" type="date" name="tanggal">
+                <input class="form-control" placeholder="Masukkan Tanggal" type="date" name="tanggal" required>
+                @error('tanggal')
+                <div class="form-control-feedback has-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-6">
                 <label>Jenis Rapat</label>
-                <select class="custom-select col-12" name="jenis">
+                <select class="custom-select col-12" name="jenis" required>
                     <option selected="selected" disabled>Pilih...</option>
                     <option>Rapat Mingguan</option>
                     <option>Rapat Bulanan</option>
                 </select>
+                @error('jenis')
+                <div class="form-control-feedback has-danger">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
         <div class="form-group mt-4">
             <div class="html-editor">
                 <label>Catatan Rapat</label>
-                <textarea class="textarea_editor form-control border-radius-0" placeholder="Enter text ..."
-                    name="catatan"></textarea>
+                <textarea class="form-control border-radius-0 textarea_editor" placeholder="Enter text ..."
+                    name="catatan" required></textarea>
+                @error('catatan')
+                <div class="form-control-feedback has-danger">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
@@ -139,13 +168,14 @@
                 </tr>
             </thead>
             <tbody>
-
-
+                @foreach ($data as $row)
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $row->tanggal }}</td>
+                    <td>{{ $row->jenis }}</td>
+                    <td><button type="button" class="btn btn-sm btn-warning btn-view" id="{{ $row->id }}"
+                            data-toggle="toggle" title="Lihat" data-placement="bottom"><i class="icon-copy fa fa-eye"
+                                aria-hidden="true"></i></button></td>
                     <td>
                         <button type="button" class="btn btn-sm btn-info btn-edit" id="" data-toggle="toggle"
                             title="Edit" data-placement="bottom"><i class="icon-copy fa fa-edit"
@@ -156,6 +186,7 @@
                                 title="Hapus" data-placement="bottom"></i></button>
                     </td>
                 </tr>
+                @endforeach
 
             </tbody>
         </table>
@@ -166,6 +197,25 @@
 
 @section('script')
 <script>
+    $('.edit_textarea_editor').wysihtml5();
+
+    $('.btn-view').on('click', function(e){
+        e.preventDefault();
+        let id = $(this).attr('id');
+        $.ajax({
+            method: "POST",
+            url: "/getIdLapRapat",
+            data: {
+                id:id,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(res) {
+                $('.view-catatan').html(htmlspecialchars_decode(res.data['catatan']));
+                $('#view-modal').modal('show');
+            }
+        })
+    })
+
     $('.btn-edit').on('click', function(e) {
         e.preventDefault();
         // let id = $(this).attr('id');

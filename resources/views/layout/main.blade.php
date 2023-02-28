@@ -63,19 +63,21 @@
 	<script src="src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 	<script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 	<script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+	<script src="src/scripts/custom.js"></script>
+
 	{{-- <script src="vendors/scripts/dashboard.js"></script> --}}
 	<script src="vendors/scripts/datatable-setting.js"></script>
 	<script>
 		// auto close alert
-$(document).ready(function () {
-  window.setTimeout(function () {
-    $(".alert-notif")
-      .fadeTo(500, 0)
-      .slideUp(500, function () {
-        $(this).remove();
-      });
-  }, 3500);
-});
+	$(document).ready(function () {
+	window.setTimeout(function () {
+		$(".alert-notif")
+		.fadeTo(500, 0)
+		.slideUp(500, function () {
+			$(this).remove();
+		});
+	}, 3500);
+	});
 	</script>
 
 	@yield('script')
