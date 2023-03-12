@@ -45,6 +45,8 @@ class LapRapatController extends Controller
             'jenis' => $request->jenis,
             'catatan' => htmlspecialchars($request->catatan)
         ];
+// dd($data);
+
 
         if($lapRapat->create($data) == true) {
             Alert::success('Berhasil', 'Data Berhasil Ditambahkan');

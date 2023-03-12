@@ -23,12 +23,8 @@
 	<link rel="stylesheet" type="text/css" href="src/plugins/datatables/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
 
-	{{-- Sweet Alert --}}
-	{{--
-	<link rel="stylesheet" type="text/css" href="src/plugins/sweetalert2/sweetalert2.css">
-	<script src="src/plugins/sweetalert2/sweetalert2.all.js"></script> --}}
-	{{-- <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-		integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> --}}
+	<link rel="stylesheet" type="text/css" href="src/plugins/datetimepicker/datetimepicker.css">
+
 </head>
 
 <body>
@@ -63,10 +59,20 @@
 	<script src="src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 	<script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 	<script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+
+	{{-- plugins --}}
+	<script src="src/plugins/datetimepicker/moment.min.js"></script>
+	<script src="src/plugins/datetimepicker/datetimepicker.js"></script>
+	<script src="src/plugins/ckeditor/ckeditor.js"></script>
+
+
+
 	<script src="src/scripts/custom.js"></script>
 
 	{{-- <script src="vendors/scripts/dashboard.js"></script> --}}
 	<script src="vendors/scripts/datatable-setting.js"></script>
+
+
 	<script>
 		// auto close alert
 	$(document).ready(function () {

@@ -3,15 +3,19 @@
 @section('content')
 
 <style>
-    [data-wysihtml5-command="createLink"] {
+    #cke_24 {
         display: none;
     }
 
-    [data-wysihtml5-action="change_view"] {
+    #cke_26 {
         display: none;
     }
 
-    [data-wysihtml5-command="insertImage"] {
+    #cke_33 {
+        display: none;
+    }
+
+    #cke_46 {
         display: none;
     }
 </style>
@@ -47,8 +51,8 @@
                     <div class="form-group mt-4">
                         <div class="html-editor">
                             <label>Catatan Rapat</label>
-                            <textarea class="form-control border-radius-0 edit_textarea_editor"
-                                placeholder="Enter text ..." name="catatan"></textarea>
+                            <textarea name="catatan" id="editor2" class="edit-catatan">
+                            </textarea>
                         </div>
                     </div>
 
@@ -97,8 +101,7 @@
                 <h4 class="modal-title" id="myLargeModalLabel">Peringatan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <div class="modal-body">
-                <p class="view-catatan"></p>
+            <div class="modal-body view-catatan">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
@@ -115,7 +118,7 @@
         <div class="form-row">
             <div class="col-6">
                 <label>Tanggal Rapat</label>
-                <input class="form-control" placeholder="Masukkan Tanggal" type="date" name="tanggal" required>
+                <input class="form-control tanggal" placeholder="Masukkan Tanggal" type="date" name="tanggal" required>
                 @error('tanggal')
                 <div class="form-control-feedback has-danger">{{ $message }}</div>
                 @enderror
@@ -137,13 +140,18 @@
         <div class="form-group mt-4">
             <div class="html-editor">
                 <label>Catatan Rapat</label>
-                <textarea class="form-control border-radius-0 textarea_editor" placeholder="Enter text ..."
-                    name="catatan" required></textarea>
+                {{-- <textarea class="form-control border-radius-0 textarea_editor" placeholder="Enter text ..."
+                    name="catatan" required></textarea> --}}
+                <textarea name="catatan" id="editor1">
+                        This is my textarea to be replaced with CKEditor 4.
+                    </textarea>
                 @error('catatan')
                 <div class="form-control-feedback has-danger">{{ $message }}</div>
                 @enderror
+
             </div>
         </div>
+
 
         <div class="form-group">
             <button type="submit" class="btn btn-outline-primary btn-lg">Simpan</button>
@@ -177,8 +185,8 @@
                             data-toggle="toggle" title="Lihat" data-placement="bottom"><i class="icon-copy fa fa-eye"
                                 aria-hidden="true"></i></button></td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-info btn-edit" id="" data-toggle="toggle"
-                            title="Edit" data-placement="bottom"><i class="icon-copy fa fa-edit"
+                        <button type="button" class="btn btn-sm btn-info btn-edit" id="{{ $row->id }}"
+                            data-toggle="toggle" title="Edit" data-placement="bottom"><i class="icon-copy fa fa-edit"
                                 aria-hidden="true"></i></button>
 
                         <button type="button" class="btn btn-sm btn-danger btn-hapus" data-toggle="toggle" title="Hapus"
@@ -197,7 +205,16 @@
 
 @section('script')
 <script>
-    $('.edit_textarea_editor').wysihtml5();
+    CKEDITOR.replace('editor1');
+    CKEDITOR.replace('editor2');
+
+
+    $('.tanggal').DateTimePicker({
+        time: false,
+        clearButton: true,
+        lang: 'id',
+        format: 'YYYY-MM-DD'
+    });
 
     $('.btn-view').on('click', function(e){
         e.preventDefault();
@@ -218,27 +235,28 @@
 
     $('.btn-edit').on('click', function(e) {
         e.preventDefault();
-        // let id = $(this).attr('id');
-        // $.ajax({
-        //     method: "POST",
-        //     url: "/getIdKode",
-        //     data: {
-        //         id: id,
-        //         _token: '{{ csrf_token() }}'
+        let id = $(this).attr('id');
+        console.log(id);
+        $.ajax({
+            method: "POST",
+            url: "/getIdLapRapat",
+            data: {
+                id: id,
+                _token: '{{ csrf_token() }}'
 
-        //     },
-        //     success: function(res) {
-        //         $.each(res.data, function(key, data) {
-        //             $('#nama_asisten').val(data['nama_lengkap']);
-        //             $('#edit_kode').val(data['kd_asisten']);
-        //             $('#id_kode').val(data['id']);
-        //         });
+            },
+            success: function(res) {
+                $.each(res, function(key, data) {
+                    console.log(data['catatan']);
+                    $('.edit-catatan').val(data['catatan']);
+                    // $('#edit_kode').val(data['kd_asisten']);
+                    // $('#id_kode').val(data['id']);
+                });
 
-        //         $('#edit-modal').modal('show');
+                $('#edit-modal').modal('show');
 
-        //     }
-        // })
-        $('#edit-modal').modal('show');
+            }
+        })
 
     });
 

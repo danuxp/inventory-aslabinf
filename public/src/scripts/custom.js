@@ -21,4 +21,5 @@ htmlspecialchars_decode.specialchars = [
     [">", "&gt;"],
     ["<", "&lt;"],
     ["&", "&amp;"],
+    ["'", "&#039;"],
 ];
