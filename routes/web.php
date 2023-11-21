@@ -11,7 +11,7 @@ use App\Http\Controllers\KodeAsistenController;
 use App\Http\Controllers\LapRapatController;
 use App\Http\Controllers\NamaLabController;
 use App\Http\Controllers\PjLabController;
-
+use App\Http\Controllers\RegistrasiAsistenControlller;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +107,17 @@ Route::controller(DataAjaxController::class)->group(function() {
 
     // lap rapat
     Route::post('getIdLapRapat', 'getIdLapRapat');
+
+    // Biodata
+    Route::post('getIdBiodata', 'getIdBiodata');
     
 
+});
+
+// Registrasi Asisten
+Route::controller(RegistrasiAsistenControlller::class)->group(function() {
+    Route::get('registrasi-asisten', 'index');
+    Route::get('tambah-asisten', 'tambah_asisten');
+    Route::post('tambah-asisten', 'store');
+    Route::post('hapus-asisten', 'destroy');
 });

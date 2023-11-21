@@ -32,9 +32,9 @@
                         @csrf
 
                         <div class="form-group">
-                            <label class="form-control-label">Nim / Username</label>
+                            <label class="form-control-label">Nim</label>
                             <input type="text" class="form-control @error('username') form-control-danger @enderror"
-                                name="username" placeholder="Nim atau Username">
+                                name="username" value="{{ old('username') }}" placeholder="Masukkan Nim">
                             @error('username')
 
                             <div class="form-control-feedback has-danger">{{ $message }}</div>
@@ -44,7 +44,7 @@
 
                         <div class="form-group">
                             <label class="form-control-label">Password</label>
-                            <input type="text" class="form-control @error('password') form-control-danger @enderror"
+                            <input type="password" class="form-control @error('password') form-control-danger @enderror"
                                 name="password" placeholder="**********">
                             @error('password')
 

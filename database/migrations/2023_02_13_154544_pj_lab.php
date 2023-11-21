@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('pj_labs', function (Blueprint $table) {
             $table->id();
-            $table->text('nim');
+            $table->string('nim', 15);
             $table->integer('lab_id');
-            $table->integer('status', 1);
+            $table->string('status', 1);
             $table->timestamps();
         });
     }

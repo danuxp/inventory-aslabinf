@@ -60,4 +60,11 @@ class DataAjaxController extends Controller
         $data['data'] = $lapRapat->find($id);
         return response()->json($data);
     }
+
+    public function getIdBiodata(Request $request)
+    {
+        $id = $request->id;
+        $data = Biodata::find($id);
+        return response()->json($data);
+    }
 }

@@ -120,7 +120,7 @@
                 <li>
                     <a href="/kode-asisten"
                         class="dropdown-toggle no-arrow {{ request()->is('kode-asisten') ? 'active' : '' }}">
-                        <i class="micon dw dw-user-2"></i>
+                        <i class="micon dw dw-user-13"></i>
                         <span class="mtext">Kode Asisten</span>
                     </a>
                 </li>
@@ -145,6 +145,14 @@
                         class="dropdown-toggle no-arrow {{ request()->is('lap-rapat') ? 'active' : '' }}">
                         <i class="micon dw dw-notebook"></i>
                         <span class="mtext">Lap. Rapat</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/registrasi-asisten"
+                        class="dropdown-toggle no-arrow {{ request()->is('registrasi-asisten') ? 'active' : '' }}">
+                        <i class="micon dw dw-user-2"></i>
+                        <span class="mtext">Registrasi Asisten</span>
                     </a>
                 </li>
 

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Alert;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -30,23 +32,43 @@ class AuthController extends Controller
         return view('auth.register', $data);
     }
 
-    public function loginValid(Request $request)
+    public function loginValid(Request $request): RedirectResponse
     {
-        $rules = [
+        // $rules = [
+        //     'username' => 'required',
+        //     'password' => 'required'
+        // ];
+
+        $credentials = $request->validate([
             'username' => 'required',
-            'password' => 'required'
-        ];
+            'password' => 'required',
+        ],
+        [
+        'username.required' => 'Username tidak boleh kosong',
+        'password.required' => 'Password tidak boleh kosong',
+         ]
+    );
 
-        $message = [
-            'username.required' => 'Username tidak boleh kosong',
-            'password.required' => 'Password tidak boleh kosong',
-        ];
+        // $message = [
+        //     'username.required' => 'Username tidak boleh kosong',
+        //     'password.required' => 'Password tidak boleh kosong',
+        // ];
 
-        $validator = Validator::make($request->all(), $rules, $message);
+        // $validator = Validator::make($request->all(), $credentials, $message);
  
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator)->withInput($request->all());
+        // }
+
+        // $credentials = $request->only('username', 'password');
+        if(Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
         }
+
+        return back()->withErrors([
+            'username' => 'Your provided credentials do not match in our records.',
+        ])->onlyInput('username');
     }
 
     public function store(Request $request)

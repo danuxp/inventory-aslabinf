@@ -27,7 +27,7 @@ return new class extends Migration
             $table->integer('angkatan');
             $table->integer('kode_divisi')->nullable();
             $table->text('hobi')->nullable();
-            $table->string('email', 50);
+            $table->string('email', 50)->nullable();
             $table->text('facebook')->nullable();
             $table->text('instagram')->nullable();
             $table->text('github')->nullable();
