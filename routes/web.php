@@ -88,6 +88,8 @@ Route::controller(PjLabController::class)->group(function() {
 Route::controller(LapRapatController::class)->group(function() {
     Route::get('lap-rapat', 'index');
     Route::post('tambah-lap-rapat', 'store');
+    Route::get('lap-rapat-cetak/{id}', 'cetak');
+    Route::post('lap-rapat-hapus', 'destroy');
 });
 
 // Route get data ajax

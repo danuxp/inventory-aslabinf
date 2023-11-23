@@ -20,52 +20,6 @@
     }
 </style>
 
-{{-- edit modal --}}
-<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Edit Data</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <form action="/edit-kode" method="post">
-                    @csrf
-                    <div class="form-row">
-                        <div class="col-6">
-                            <label>Tanggal Rapat</label>
-                            <input class="form-control" placeholder="Masukkan Tanggal" type="date" name="tanggal">
-                        </div>
-
-                        <div class="col-6">
-                            <label>Jenis Rapat</label>
-                            <select class="custom-select col-12" name="jenis">
-                                <option selected="selected" disabled>Pilih...</option>
-                                <option>Rapat Mingguan</option>
-                                <option>Rapat Bulanan</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group mt-4">
-                        <div class="html-editor">
-                            <label>Catatan Rapat</label>
-                            <textarea name="catatan" id="editor2" class="edit-catatan">
-                            </textarea>
-                        </div>
-                    </div>
-
-                    <input type="hidden" name="id" id="id_kode">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary" id="edit_btn">Update</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 {{-- hapus modal --}}
 <div class="modal fade" id="hapus-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -73,11 +27,11 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Peringatan</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">Peringatan!</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form action="/hapus-kode" method="post">
+                <form action="{{ url('/lap-rapat-hapus') }}" method="post">
                     @csrf
                     <p>Apakah anda yakin ingin menghapus ?</p>
                     <input type="hidden" name="id" id="id_hapus">
@@ -85,40 +39,23 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
-                <button type="submit" class="btn btn-primary">Ya</button>
+                <button type="submit" class="btn btn-danger">Ya</button>
             </div>
             </form>
         </div>
     </div>
 </div>
 
-{{-- view catatan modal --}}
-<div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Peringatan</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body view-catatan">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
-                <button type="submit" class="btn btn-primary">Ya</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="pd-20 card-box mb-30">
-    <h4 class="h4 text-blue">Form Tambah Laporan</h4>
+    <h4 class="h4 text-blue">Form Laporan</h4>
     <form action="/tambah-lap-rapat" method="post">
         @csrf
+        <input type="hidden" name="id" id="id">
         <div class="form-row">
             <div class="col-6">
                 <label>Tanggal Rapat</label>
-                <input class="form-control tanggal" placeholder="Masukkan Tanggal" type="date" name="tanggal" required>
+                <input class="form-control tanggal" type="date" name="tanggal" id="tanggal" required>
                 @error('tanggal')
                 <div class="form-control-feedback has-danger">{{ $message }}</div>
                 @enderror
@@ -126,15 +63,21 @@
 
             <div class="col-6">
                 <label>Jenis Rapat</label>
-                <select class="custom-select col-12" name="jenis" required>
+                <select class="custom-select col-12" name="jenis_rapat" id="jenis_rapat" required>
                     <option selected="selected" disabled>Pilih...</option>
-                    <option>Rapat Mingguan</option>
-                    <option>Rapat Bulanan</option>
+                    <option value="RM" {{ old('jenis_rapat')=="RM" ? 'selected' : '' }}>Rapat Mingguan</option>
+                    <option value="RB" {{ old('jenis_rapat')=="RB" ? 'selected' : '' }}>Rapat Bulanan</option>
+                    <option value="RI" {{ old('jenis_rapat')=="RI" ? 'selected' : '' }}>Rapat Incidental
+                        (bersifat
+                        mendadak)</option>
                 </select>
-                @error('jenis')
+                @error('jenis_rapat')
                 <div class="form-control-feedback has-danger">{{ $message }}</div>
                 @enderror
             </div>
+        </div>
+
+        <div class="form-group tempat mt-4">      
         </div>
 
         <div class="form-group mt-4">
@@ -142,9 +85,7 @@
                 <label>Catatan Rapat</label>
                 {{-- <textarea class="form-control border-radius-0 textarea_editor" placeholder="Enter text ..."
                     name="catatan" required></textarea> --}}
-                <textarea name="catatan" id="editor1">
-                        This is my textarea to be replaced with CKEditor 4.
-                    </textarea>
+                <textarea name="catatan" id="editor1"></textarea>
                 @error('catatan')
                 <div class="form-control-feedback has-danger">{{ $message }}</div>
                 @enderror
@@ -157,6 +98,8 @@
             <button type="submit" class="btn btn-outline-primary btn-lg">Simpan</button>
         </div>
     </form>
+
+    <div class="tes"></div>
 </div>
 
 <div class="card-box mb-30">
@@ -171,6 +114,7 @@
                     <th class="table-plus datatable-nosort">#</th>
                     <th>Tanggal</th>
                     <th>Jenis Rapat</th>
+                    <th>Author</th>
                     <th>Catatan Rapat</th>
                     <th>Aksi</th>
                 </tr>
@@ -179,18 +123,19 @@
                 @foreach ($data as $row)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $row->tanggal }}</td>
-                    <td>{{ $row->jenis }}</td>
-                    <td><button type="button" class="btn btn-sm btn-warning btn-view" id="{{ $row->id }}"
-                            data-toggle="toggle" title="Lihat" data-placement="bottom"><i class="icon-copy fa fa-eye"
-                                aria-hidden="true"></i></button></td>
+                    <td>{{ tanggal_indo($row->tanggal) }}</td>
+                    <td>{{ jenis_rapat($row->jenis) }}</td>
+                    <td>{{ $row->author }}</td>
+                    <td><a href="{{ url('lap-rapat-cetak/' . Crypt::encryptString($row->id) ) }}" class="btn btn-sm btn-warning"
+                            data-toggle="toggle" title="Lihat" data-placement="bottom" target="blank"><i class="icon-copy fa fa-file-pdf-o"
+                               ></i></a></td>
                     <td>
                         <button type="button" class="btn btn-sm btn-info btn-edit" id="{{ $row->id }}"
                             data-toggle="toggle" title="Edit" data-placement="bottom"><i class="icon-copy fa fa-edit"
                                 aria-hidden="true"></i></button>
 
                         <button type="button" class="btn btn-sm btn-danger btn-hapus" data-toggle="toggle" title="Hapus"
-                            id=""><i class=" icon-copy fa fa-trash" aria-hidden="true" data-toggle="tooltip"
+                            id="{{ $row->id }}"><i class=" icon-copy fa fa-trash" aria-hidden="true" data-toggle="tooltip"
                                 title="Hapus" data-placement="bottom"></i></button>
                     </td>
                 </tr>
@@ -205,8 +150,7 @@
 
 @section('script')
 <script>
-    CKEDITOR.replace('editor1');
-    CKEDITOR.replace('editor2');
+    var editor = CKEDITOR.replace('editor1');
 
 
     $('.tanggal').DateTimePicker({
@@ -216,27 +160,10 @@
         format: 'YYYY-MM-DD'
     });
 
-    $('.btn-view').on('click', function(e){
-        e.preventDefault();
-        let id = $(this).attr('id');
-        $.ajax({
-            method: "POST",
-            url: "/getIdLapRapat",
-            data: {
-                id:id,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(res) {
-                $('.view-catatan').html(htmlspecialchars_decode(res.data['catatan']));
-                $('#view-modal').modal('show');
-            }
-        })
-    })
 
     $('.btn-edit').on('click', function(e) {
         e.preventDefault();
         let id = $(this).attr('id');
-        console.log(id);
         $.ajax({
             method: "POST",
             url: "/getIdLapRapat",
@@ -246,14 +173,22 @@
 
             },
             success: function(res) {
-                $.each(res, function(key, data) {
-                    console.log(data['catatan']);
-                    $('.edit-catatan').val(data['catatan']);
-                    // $('#edit_kode').val(data['kd_asisten']);
-                    // $('#id_kode').val(data['id']);
-                });
+                console.log(htmlspecialchars(res.data['catatan']));
+                editor.setData(res.data.catatan);
+                $('#tanggal').val(res.data.tanggal);
+                $('#jenis_rapat').val(res.data.jenis).change();
+                $('#tempat').val(res.data.tempat);
+                $('#id').val(res.data.id);
+        // $('textarea[name="catatan"]').text(res.catatan);
 
-                $('#edit-modal').modal('show');
+                // $.each(res, function(key, data) {
+                //     console.log(data['catatan']);
+                //     $('.edit-catatan').val(data['catatan']);
+                //     // $('#edit_kode').val(data['kd_asisten']);
+                //     // $('#id_kode').val(data['id']);
+                // });
+
+                // $('#edit-modal').modal('show');
 
             }
         })
@@ -262,24 +197,28 @@
 
     $('.btn-hapus').on('click', function(e) {
         e.preventDefault();
-        // let id = $(this).attr('id');
-        // $.ajax({
-        //     method: "POST",
-        //     url: "/getIdKode",
-        //     data:{
-        //         id: id,
-        //         _token: '{{ csrf_token() }}'
-        //     }
-        //     ,
-        //     success: function(res) {
-        //         $.each(res.data, function(key, data) {
-        //             $('#id_hapus').val(data['id']);
-        //         })
-        //         $('#hapus-modal').modal('show');
-        //     },   
-        // })
+        let id = $(this).attr('id');
+        $('#id_hapus').val(id);
         $('#hapus-modal').modal('show');
 
     })
+
+    $('#jenis_rapat').on('change', function(e) {
+        let jenis_rapat = $(this).val();
+        tempat(jenis_rapat);
+    })
+
+    let jenis_rapat = $('#jenis_rapat').val();
+    tempat(jenis_rapat);
+
+    function tempat(jenis_rapat) {
+        let tempat = '';
+        if(jenis_rapat == "RB") {
+            tempat += '<label>Tempat</label> <input type="text" name="tempat" class="form-control" placeholder="Rumah" id="tempat">';
+        }
+        $('.tempat').html(tempat);
+    }
+
+   
 </script>
 @endsection

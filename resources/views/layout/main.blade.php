@@ -84,6 +84,33 @@
 		});
 	}, 3500);
 	});
+
+	function htmlspecialchars(string) {
+  // Our finalized string will start out as a copy of the initial string.
+  var escapedString = string;
+
+  // For each of the special characters,
+  var len = htmlspecialchars.specialchars.length;
+  for (var x = 0; x < len; x++) {
+    // Replace all instances of the special character with its entity.
+    escapedString = escapedString.replace(
+      new RegExp(htmlspecialchars.specialchars[x][0], "g"),
+      htmlspecialchars.specialchars[x][1]
+    );
+  }
+
+  // Return the escaped string.
+  return escapedString;
+}
+
+// A collection of special characters and their entities.
+htmlspecialchars.specialchars = [
+  ["&", "&amp;"],
+  ["<", "&lt;"],
+  [">", "&gt;"],
+  ['"', "&quot;"],
+];
+
 	</script>
 
 	@yield('script')

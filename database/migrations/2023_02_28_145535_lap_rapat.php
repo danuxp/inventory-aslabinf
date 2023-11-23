@@ -18,6 +18,8 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('jenis', 20);
             $table->text('catatan');
+            $table->string('author', 20);
+            $table->string('tempat', 100);
             $table->timestamps();
         });
     }

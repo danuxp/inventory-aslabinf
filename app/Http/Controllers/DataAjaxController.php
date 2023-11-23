@@ -54,10 +54,10 @@ class DataAjaxController extends Controller
         return response()->json($data);
     }
 
-    public function getIdLapRapat(Request $request, LapRapat $lapRapat)
+    public function getIdLapRapat(Request $request)
     {
         $id = $request->id;
-        $data['data'] = $lapRapat->find($id);
+        $data['data'] = LapRapat::find($id);
         return response()->json($data);
     }
 

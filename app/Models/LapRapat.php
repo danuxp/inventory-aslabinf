@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class LapRapat extends Model
 {
     use HasFactory;
-    protected $fillable = ['tanggal', 'jenis', 'catatan'];
+    protected $fillable = ['tanggal', 'jenis', 'catatan', 'tempat', 'author'];
 
 }
