@@ -90,7 +90,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
-                <button type="submit" class="btn btn-primary">Ya</button>
+                <button type="submit" class="btn btn-danger">Ya</button>
             </div>
             </form>
         </div>
@@ -175,14 +175,11 @@
 
             },
             success: function(res) {
-                $.each(res.data, function(key, data) {
-                    $('#nama_asisten').val(data['nama_lengkap']);
-                    $('#edit_kode').val(data['kd_asisten']);
-                    $('#id_kode').val(data['id']);
-                });
+                $('#nama_asisten').val(res.data.nama_lengkap);
+                $('#edit_kode').val(res.data.kd_asisten);
+                $('#id_kode').val(res.data.id);
 
                 $('#edit-modal').modal('show');
-
             }
         })
     });
@@ -190,21 +187,8 @@
     $('.btn-hapus').on('click', function(e) {
         e.preventDefault();
         let id = $(this).attr('id');
-        $.ajax({
-            method: "POST",
-            url: "/getIdKode",
-            data:{
-                id: id,
-                _token: '{{ csrf_token() }}'
-            }
-            ,
-            success: function(res) {
-                $.each(res.data, function(key, data) {
-                    $('#id_hapus').val(data['id']);
-                })
-                $('#hapus-modal').modal('show');
-            },   
-        })
+        $('#id_hapus').val(id);
+        $('#hapus-modal').modal('show');
     })
 </script>
 @endsection

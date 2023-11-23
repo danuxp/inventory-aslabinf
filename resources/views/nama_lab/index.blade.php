@@ -2,34 +2,6 @@
 
 @section('content')
 
-{{-- edit modal --}}
-<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Pemberitahun</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <form action="/edit-lab" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <label>Nama Lab</label>
-                        <input class="form-control" type="text" name="edit_lab" id="edit_lab" required>
-                    </div>
-
-                    <input type="hidden" name="id" id="id_lab">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary" id="edit_btn">Simpan</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 {{-- hapus modal --}}
 <div class="modal fade" id="hapus-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
@@ -48,7 +20,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
-                <button type="submit" class="btn btn-primary">Ya</button>
+                <button type="submit" class="btn btn-danger">Ya</button>
             </div>
             </form>
         </div>
@@ -57,12 +29,14 @@
 
 
 <div class="pd-20 card-box mb-30">
-    <form action="/tambah-lab" method="POST">
+    <form action="{{ url('/tambah-lab') }}" method="POST">
         @csrf
+        <input type="hidden" name="id" id="id">
+
         <div class="form-group">
             <label>Nama Lab</label>
             <input class="form-control @error('nama_lab') form-control-danger @enderror" type="text"
-                placeholder="Masukkan Nama Lab" name="nama_lab" required>
+                placeholder="Masukkan Nama Lab" name="nama_lab" id="nama_lab" required>
 
             @error('nama_lab')
             <div class="form-control-feedback has-danger">{{ $message }}</div>
@@ -134,11 +108,8 @@
 
             },
             success: function(res) {
-                $('#edit_lab').val(res.data['nama']);
-                $('#id_lab').val(res.data['id']);
-
-                $('#edit-modal').modal('show');
-
+                $('#nama_lab').val(res.data.nama);
+                $('#id').val(res.data.id);
             }
         });
 
@@ -147,19 +118,8 @@
     $('.btn-hapus').on('click', function(e) {
         e.preventDefault();
         let id = $(this).attr('id');
-        $.ajax({
-            method: "POST",
-            url: "/getIdLab",
-            data:{
-                id: id,
-                _token: '{{ csrf_token() }}'
-            }
-            ,
-            success: function(res) {
-                $('#id_hapus').val(res.data['id']);
-                $('#hapus-modal').modal('show');
-            },   
-        });
+        $('#id_hapus').val(id);
+        $('#hapus-modal').modal('show');
     });
 
 </script>

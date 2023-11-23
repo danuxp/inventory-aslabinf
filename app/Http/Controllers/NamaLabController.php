@@ -19,14 +19,14 @@ class NamaLabController extends Controller
         return view('nama_lab.index', $data);
     }
 
-    public function store(Request $request, NamaLab $namaLab)
+    public function store(Request $request)
     {
         $rules = [
             'nama_lab' => 'required'
         ];
 
         $message = [
-            'nama_lab.required' => 'Kolom asisten harus diisi'
+            'nama_lab.required' => 'Nama lab harus diisi'
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
@@ -35,16 +35,33 @@ class NamaLabController extends Controller
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
 
+        $id = $request->id;
+
         $data = [
             'nama' => strtoupper($request->nama_lab),
         ];
 
-        if($namaLab->create($data) == true) {
-            Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-            return redirect()->back();
+        if(is_null($id)) {
+            try {
+                NamaLab::create($data);
+                Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                Alert::error('Gagal', $th);
+                return redirect()->back();
+            }
         } else {
-            Alert::error('Gagal', 'Data Gagal Ditambahkan');
-            return redirect()->back();
+            try {
+                $update = NamaLab::find($id);
+                $update->update($data);
+                Alert::success('Berhasil', 'Data Berhasil Diupdate');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                Alert::error('Gagal', $th);
+                return redirect()->back();
+            }
+            
+            
         }
     }
 

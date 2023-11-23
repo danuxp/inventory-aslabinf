@@ -2,34 +2,6 @@
 
 @section('content')
 
-{{-- edit modal --}}
-<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Pemberitahun</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <form action="/edit-angkatan" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <label>Angkatan</label>
-                        <input class="form-control" type="text" name="edit_angkatan" id="angkatan" required>
-                    </div>
-
-                    <input type="hidden" name="id" id="id_angkatan">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary" id="edit_btn">Simpan</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 {{-- hapus modal --}}
 <div class="modal fade" id="hapus-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
@@ -57,12 +29,14 @@
 
 
 <div class="pd-20 card-box mb-30">
-    <form action="/tambah-angkatan" method="POST">
+    <form action="{{ url('/tambah-angkatan') }}" method="POST">
         @csrf
+        <input type="hidden" name="id" id="id">
+        
         <div class="form-group">
             <label>Angkatan</label>
             <input class="form-control @error('angkatan') form-control-danger @enderror" type="text"
-                placeholder="Masukkan Angkatan Ke" name="angkatan" required>
+                placeholder="Masukkan Angkatan Ke" name="angkatan" id="angkatan" required>
 
             @error('angkatan')
             <div class="form-control-feedback has-danger">{{ $message }}</div>
@@ -135,10 +109,10 @@
             }
             ,
             success: function(res) {
-                $('#id_angkatan').val(res.data['id_angkatan']);
-                $('#angkatan').val(res.data['angkatan_ke']);
+                $('#id').val(res.data.id_angkatan);
+                $('#angkatan').val(res.data.angkatan_ke);
 
-                $('#edit-modal').modal('show');
+                // $('#edit-modal').modal('show');
             },   
         })
     })

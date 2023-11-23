@@ -49,9 +49,9 @@ class DivisiController extends Controller
 
         $kode = "ASBINF" . rand(100, 999);
         $nama_divisi = strtoupper($request->divisi);
+        $id = $request->id;
 
         $data = [
-            'kd_divisi' => $kode,
             'nama_divisi' => $nama_divisi
         ];
 
@@ -63,63 +63,32 @@ class DivisiController extends Controller
             Alert::warning('Peringatan', 'Maaf Data Sudah Ada');
             return redirect()->back();
         } else {
-            Divisi::create($data);
-            Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-            return redirect()->back();
+            if(is_null($id)) {
+                try {
+                    $data['kd_divisi'] = $kode;
+                    Divisi::create($data);
+                    Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
+                    return redirect()->back();
+                } catch (\Throwable $th) {
+                    Alert::error('Gagal', $th);
+                    return redirect()->back();
+                }
+            } else {
+                try {
+                    $update = Divisi::find($id);
+                    $update->update($data);
+                    Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
+                    return redirect()->back();
+                } catch (\Throwable $th) {
+                    Alert::error('Gagal', $th);
+                    return redirect()->back();
+                }
+            }
+            
         }
 
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Divisi  $divisi
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Divisi $divisi)
-    {
-        $rules = [
-            'edit_divisi' => 'required'
-        ];
-
-        $message = [
-            'edit_divisi.required' => 'Kolom angkatan harus diisi',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $message);
- 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
-        }
-
-        $data = [
-            'nama_divisi' => strtoupper($request->edit_divisi)
-        ];
-
-        $cek_nama = $divisi->where('nama_divisi', strtoupper($request->edit_divisi))->get();
-        
-        $result = $divisi->where('id_divisi', $request->id)->update($data);
-        
-        if(count($cek_nama) == 1) {
-            Alert::warning('Peringatan', 'Maaf Data Sudah Ada');
-            return redirect()->back();
-        } else if($result == true) {
-            Alert::success('Berhasil', 'Data Berhasil Diedit');
-            return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Diedit');
-            return redirect()->back();
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Divisi  $divisi
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, Divisi $divisi)
     {
         $id = $request->id; 

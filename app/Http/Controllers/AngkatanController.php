@@ -47,66 +47,34 @@ class AngkatanController extends Controller
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
 
+        $id = $request->id;
+
         $data = [
             'angkatan_ke' => $request->angkatan
         ];
 
-        if(Angkatan::create($data) == true) {
-            Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-            return redirect()->back();
+        if(is_null($id)) {
+            try {
+                Angkatan::create($data);
+                Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                Alert::error('Gagal', $th);
+                return redirect()->back();  
+            }
         } else {
-            Alert::error('Gagal', 'Data Gagal Ditambahkan');
-            return redirect()->back();
+            try {
+                $update = Angkatan::find($id);
+                $update->update($data);
+                Alert::success('Berhasil', 'Data Berhasil Diupdate');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                Alert::error('Gagal', $th);
+                return redirect()->back(); 
+            }
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Angkatan $angkatan)
-    {
-        $rules = [
-            'edit_angkatan' => 'required|numeric'
-        ];
-
-        $message = [
-            'edit_angkatan.required' => 'Kolom angkatan harus diisi',
-            'edit_angkatan.numeric' => 'Inputan harus berupa angka'
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $message);
- 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
-        }
-
-        $data = [
-            'angkatan_ke' => $request->edit_angkatan
-        ];
-
-        $result = $angkatan->where('id_angkatan', $request->id)->update($data);
-        
-        if($result == true) {
-            Alert::success('Berhasil', 'Data Berhasil Diedit');
-            return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Diedit');
-            return redirect()->back();
-        }
-        
-        // return response()->json($data);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, Angkatan $angkatan)
     {
         $id = $request->id; 
