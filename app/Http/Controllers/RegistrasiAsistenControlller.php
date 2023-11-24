@@ -45,12 +45,6 @@ class RegistrasiAsistenControlller extends Controller
             'angkatan.required' => 'Angkatan harus diisi',
         ];
 
-        if(is_null($id)) {
-            $rules['nim'] = 'required|unique:biodatas,nim';
-            $message['nim'] = ['required' => 'Nim harus diisi',
-            'unique' => 'Nim sudah ada'];
-        }
-
         $validator = Validator::make($request->all(), $rules, $message);
 
  
@@ -65,6 +59,7 @@ class RegistrasiAsistenControlller extends Controller
             'nama_cantik' => strtoupper($request->namacantik),
             'jenis_kelamin' => $request->kelamin,
             'angkatan' => $request->angkatan,
+            'status' => "A"
         ];
 
         $user = [
@@ -75,13 +70,18 @@ class RegistrasiAsistenControlller extends Controller
         ];
 
         if(is_null($id)) {
+            $rules['nim'] = 'required|unique:biodatas,nim';
+            $rules['nim'] = 'required|unique:users,nim';
+            $message['nim'] = ['required' => 'Nim harus diisi',
+            'unique' => 'Nim sudah ada'];
+
              try {
                 User::create($user);
                 Biodata::create($data);
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
                 return redirect()->back();
              } catch (\Throwable $th) {
-                Alert::success('Gagal', $th);
+                Alert::error('Gagal', $th->getMessage());
                 return redirect()->back();
              }
         } else {
@@ -91,7 +91,7 @@ class RegistrasiAsistenControlller extends Controller
                 Alert::success('Berhasil', 'Data Berhasil Diupdate');
                 return redirect()->back();
             } catch (\Throwable $th) {
-                Alert::success('Gagal', $th);
+                Alert::error('Gagal', $th->getMessage());
                 return redirect()->back();
             }
         }
@@ -102,7 +102,10 @@ class RegistrasiAsistenControlller extends Controller
         $id = $request->id;
         try {
             $delete = Biodata::find($id);
+            $nim = $delete->nim;
+            $user = User::where('nim', $nim)->first();
             $delete->delete();
+            $user->delete();
             Alert::success('Berhasil', 'Data Berhasil Dihapus');
             return redirect()->back();
         } catch (\Throwable $th) {

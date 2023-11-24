@@ -47,7 +47,7 @@ class NamaLabController extends Controller
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
                 return redirect()->back();
             } catch (\Throwable $th) {
-                Alert::error('Gagal', $th);
+                Alert::error('Gagal', $th->getMessage());
                 return redirect()->back();
             }
         } else {
@@ -57,7 +57,7 @@ class NamaLabController extends Controller
                 Alert::success('Berhasil', 'Data Berhasil Diupdate');
                 return redirect()->back();
             } catch (\Throwable $th) {
-                Alert::error('Gagal', $th);
+                Alert::error('Gagal', $th->getMessage());
                 return redirect()->back();
             }
             
@@ -65,47 +65,17 @@ class NamaLabController extends Controller
         }
     }
 
-    public function update(Request $request, NamaLab $namaLab)
-    {
-        $rules = [
-            'edit_lab' => 'required'
-        ];
-
-        $message = [
-            'edit_lab.required' => 'Kolom asisten harus diisi'
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $message);
- 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
-        }
-
-        $data = [
-            'nama' => strtoupper($request->edit_lab),
-        ];
-
-        $result = $namaLab->where('id', $request->id)->update($data);
-        
-        if($result == true) {
-            Alert::success('Berhasil', 'Data Berhasil Diedit');
-            return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Diedit');
-            return redirect()->back();
-        }
-    }
 
     public function destroy(Request $request, NamaLab $namaLab)
     {
         $id = $request->id; 
-        $result = $namaLab->findOrFail($id);
-        if($result == true) {
+        try {
+            $result = $namaLab->findOrFail($id);
             $result->delete();
             Alert::success('Berhasil', 'Data Berhasil Dihapus');
             return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Dihapus');
+        } catch (\Throwable $th) {
+            Alert::error('Gagal', $th->getMessage());
             return redirect()->back();
         }
     }

@@ -20,7 +20,7 @@ class KodeAsistenController extends Controller
     {
         $data = [
             'title' => 'Kode Asisten',
-            'biodata' => Biodata::all(),
+            'biodata' => Biodata::where('status', 'A')->get(),
             'data' => $kodeAsisten->joinBiodata()
 
         ];
@@ -33,16 +33,12 @@ class KodeAsistenController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, KodeAsisten $kodeAsisten)
+    public function store(Request $request)
     {
-        $rules = [
-            'bio_id' => 'required|unique:kode_asistens,bio_id',
-            'kode_asisten' => 'required|unique:kode_asistens,kd_asisten'
-        ];
+        $rules = [];
 
         $message = [
-            'bio_id.required' => 'Kolom asisten harus diisi',
-            'bio_id.unique' => 'Data sudah ada',
+            'asisten.required' => 'Kolom asisten harus diisi',
             'kode_asisten.required' => 'Kolom kode asisten harus diisi',
             'kode_asisten.unique' => 'Kode asisten tidak boleh sama'
         ];
@@ -53,77 +49,50 @@ class KodeAsistenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
 
+        $id = $request->id;
+        $bio_id = $request->bio_id;
+
         $data = [
-            'bio_id' => $request->bio_id,
+            'bio_id' => is_null($bio_id) ? $request->asisten : $bio_id,
             'kd_asisten' => strtoupper($request->kode_asisten)
         ];
-        
-        if($kodeAsisten->create($data) == true) {
-            Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-            return redirect()->back();
+
+        if(is_null($id)) {
+            $rules['asisten'] = 'required|unique:kode_asistens,asisten';
+            $rules['kode_asisten'] = 'required|unique:kode_asistens,kd_asisten';
+            try {
+                KodeAsisten::create($data);
+                Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                Alert::error('Gagal', $th->getMessage());
+                return redirect()->back();
+            }
+
         } else {
-            Alert::error('Gagal', 'Data Gagal Ditambahkan');
-            return redirect()->back();
+            try {
+                $update = KodeAsisten::find($id);
+                $update->update($data);
+                Alert::success('Berhasil', 'Data Berhasil Diupdate');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                Alert::error('Gagal', $th->getMessage());
+                return redirect()->back();
+            }
+
         }
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\KodeAsisten  $kodeAsisten
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, KodeAsisten $kodeAsisten)
-    {
-        $rules = [
-            'edit_kode' => 'required|unique:kode_asistens,kd_asisten'
-        ];
-
-        $message = [
-            'edit_kode.required' => 'Kolom kode asisten harus diisi',
-            'edit_kode.unique' => 'Kode asisten tidak boleh sama'
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $message);
- 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
-        }
-
-        $data = [
-            'kd_asisten' => strtoupper($request->edit_kode)
-        ];
-
-        $result = $kodeAsisten->where('id', $request->id)->update($data);
-        
-        if($result == true) {
-            Alert::success('Berhasil', 'Data Berhasil Diedit');
-            return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Diedit');
-            return redirect()->back();
-        }
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\KodeAsisten  $kodeAsisten
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, KodeAsisten $kodeAsisten)
+    public function destroy(Request $request)
     {
         $id = $request->id; 
-        $result = $kodeAsisten->findOrFail($id);
-        if($result == true) {
+        try {
+            $result = KodeAsisten::find($id);
             $result->delete();
             Alert::success('Berhasil', 'Data Berhasil Dihapus');
             return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Dihapus');
+        } catch (\Throwable $th) {
+            Alert::warning('Gagal', $th->getMessage());
             return redirect()->back();
         }
     }

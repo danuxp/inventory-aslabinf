@@ -2,43 +2,6 @@
 
 @section('content')
 
-{{-- modal tambah data --}}
-<div class="modal fade bs-example-modal-md" id="modal-tambah" tabindex="-1" role="dialog"
-    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Tambah Data</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <form action="/tambah-kode" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <label>Pilih Asisten</label>
-                        <select class="custom-select2 form-control" name="bio_id" style="width: 100%; height: 38px;"
-                            required>
-                            @foreach ($biodata as $bio)
-                            <option value="{{ $bio->id_bio }}">{{ $bio->nim . ' - ' . $bio->nama_lengkap }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Kode Asisten</label>
-                        <input class="form-control" type="text" placeholder="Masukkan Kode Asisten" name="kode_asisten"
-                            required>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 {{-- edit modal --}}
 <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
@@ -97,8 +60,47 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-tambah"><i
-        class="fa fa-plus"></i> Tambah Data</button>
+
+<div class="pd-20 card-box mb-30">
+    <h4 class="h4 text-blue">Form Kode Asisten</h4>
+    <form action="{{ url('/tambah-kode') }}" method="POST">
+        @csrf
+        <input type="hidden" name="id" id="id">
+        <input type="hidden" name="bio_id" id="bio_id">
+
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Pilih Asisten</label>
+                    <select class="custom-select2 form-control @error('asisten') form-control-danger @enderror" name="asisten" id="asisten" style="width: 100%; height: 38px;"
+                        required>
+                        <option value="" selected disabled>Pilih</option>
+                        @foreach ($biodata as $bio)
+                        <option value="{{ $bio->id_bio }}">{{ $bio->nim . ' - ' . $bio->nama_lengkap }}</option>
+                        @endforeach
+                    </select>
+
+                    @error('asisten')
+                    <div class="form-control-feedback has-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Kode Asisten</label>
+                    <input class="form-control @error('kode_asisten') form-control-danger @enderror" type="text" placeholder="Masukkan Kode Asisten" name="kode_asisten" id="kode_asisten"
+                        required>
+
+                    @error('kode_asisten')
+                    <div class="form-control-feedback has-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+</div>
 
 <div class="card-box mb-30">
     <div class="pd-20">
@@ -175,11 +177,14 @@
 
             },
             success: function(res) {
-                $('#nama_asisten').val(res.data.nama_lengkap);
-                $('#edit_kode').val(res.data.kd_asisten);
-                $('#id_kode').val(res.data.id);
+                let data = res.data[0];
+                console.log(res);
+                $('#asisten').val(data.bio_id).change().attr('disabled', true);
+                $('#kode_asisten').val(data.kd_asisten);
+                $('#id').val(data.id);
+                $('#bio_id').val(data.bio_id);
 
-                $('#edit-modal').modal('show');
+                // $('#edit-modal').modal('show');
             }
         })
     });

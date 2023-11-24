@@ -70,7 +70,7 @@ class DivisiController extends Controller
                     Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
                     return redirect()->back();
                 } catch (\Throwable $th) {
-                    Alert::error('Gagal', $th);
+                    Alert::error('Gagal', $th->getMessage());
                     return redirect()->back();
                 }
             } else {
@@ -80,7 +80,7 @@ class DivisiController extends Controller
                     Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
                     return redirect()->back();
                 } catch (\Throwable $th) {
-                    Alert::error('Gagal', $th);
+                    Alert::error('Gagal', $th->getMessage());
                     return redirect()->back();
                 }
             }
@@ -89,16 +89,16 @@ class DivisiController extends Controller
 
     }
 
-    public function destroy(Request $request, Divisi $divisi)
+    public function destroy(Request $request)
     {
         $id = $request->id; 
-        $result = $divisi->findOrFail($id);
-        if($result == true) {
+        try {
+            $result = Divisi::find($id);
             $result->delete();
             Alert::success('Berhasil', 'Data Berhasil Dihapus');
             return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Dihapus');
+        } catch (\Throwable $th) {
+            Alert::error('Peringatan', $th->getMessage());
             return redirect()->back();
         }
     }

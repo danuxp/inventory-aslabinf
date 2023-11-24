@@ -9,11 +9,6 @@ use Alert;
 
 class AngkatanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $data = [
@@ -24,12 +19,6 @@ class AngkatanController extends Controller
         return view('angkatan.index', $data); 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rules = [
@@ -59,7 +48,7 @@ class AngkatanController extends Controller
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
                 return redirect()->back();
             } catch (\Throwable $th) {
-                Alert::error('Gagal', $th);
+                Alert::error('Gagal', $th->getMessage());
                 return redirect()->back();  
             }
         } else {
@@ -69,22 +58,22 @@ class AngkatanController extends Controller
                 Alert::success('Berhasil', 'Data Berhasil Diupdate');
                 return redirect()->back();
             } catch (\Throwable $th) {
-                Alert::error('Gagal', $th);
+                Alert::error('Gagal', $th->getMessage());
                 return redirect()->back(); 
             }
         }
     }
 
-    public function destroy(Request $request, Angkatan $angkatan)
+    public function destroy(Request $request)
     {
         $id = $request->id; 
-        $data = $angkatan->findOrFail($id);
-        if($data == true) {
+        try {
+            $data = Angkatan::find($id);
             $data->delete();
             Alert::success('Berhasil', 'Data Berhasil Dihapus');
             return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Dihapus');
+        } catch (\Throwable $th) {
+            Alert::error('Gagal', $th->getMessage());
             return redirect()->back();
         }
     }

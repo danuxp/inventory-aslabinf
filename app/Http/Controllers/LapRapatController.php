@@ -58,7 +58,7 @@ class LapRapatController extends Controller
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
                 return redirect()->back();
             } catch (\Throwable $th) {
-                Alert::error('Gagal', $th);
+                Alert::error('Gagal', $th->getMessage());
                 return redirect()->back();
             }
 
@@ -70,7 +70,7 @@ class LapRapatController extends Controller
                 Alert::success('Berhasil', 'Data Berhasil Diupdate');
                 return redirect()->back();
             } catch (\Throwable $th) {
-                Alert::error('Gagal', $th);
+                Alert::error('Gagal', $th->getMessage());
                 return redirect()->back();
             }
         }
@@ -80,27 +80,34 @@ class LapRapatController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->id; 
-        $result = LapRapat::findOrFail($id);
-        if($result == true) {
+        try {
+            $result = LapRapat::find($id);
             $result->delete();
             Alert::success('Berhasil', 'Data Berhasil Dihapus');
             return redirect()->back();
-        } else {
-            Alert::warning('Peringatan', 'Data Gagal Dihapus');
+        } catch (\Throwable $th) {
+            Alert::error('Gagal', $th->getMessage());
             return redirect()->back();
         }
     }
 
     public function cetak($id = null)
     {
-        $decrypt_id = Crypt::decryptString($id);
-        $data = [
-            'data' => LapRapat::find($decrypt_id),
-            'title' => 'Laporan Rapat_'.date('Y-m-d')
-        ];
-    
-        $pdf = PDF::loadView('lap_rapat.cetak', $data);
-        return $pdf->stream('cetak_laporan.pdf');
-        
+        if($id) {
+            try {
+                $decrypt_id = Crypt::decryptString($id);
+                $data = [
+                    'data' => LapRapat::find($decrypt_id),
+                    'title' => 'Laporan Rapat_'.date('Y-m-d')
+                ];
+            
+                $pdf = PDF::loadView('lap_rapat.cetak', $data);
+                return $pdf->stream('cetak_laporan.pdf');
+            } catch (\Throwable $th) {
+                abort(404);
+            }
+        } else {
+            abort(404);
+        }
     }
 }

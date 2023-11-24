@@ -32,6 +32,7 @@ return new class extends Migration
             $table->text('instagram')->nullable();
             $table->text('github')->nullable();
             $table->text('linkedin')->nullable();
+            $table->string('status', 1)->nullable();
             $table->timestamps();
         });
     }

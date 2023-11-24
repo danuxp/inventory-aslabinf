@@ -45,7 +45,6 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::controller(AngkatanController::class)->group(function() {
     Route::get('angkatan', 'index');
     Route::post('tambah-angkatan', 'store');
-    Route::post('edit-angkatan', 'update');
     Route::post('hapus-angkatan', 'destroy');
 });
 
@@ -53,7 +52,6 @@ Route::controller(AngkatanController::class)->group(function() {
 Route::controller(DivisiController::class)->group(function() {
     Route::get('divisi', 'index');
     Route::post('tambah-divisi', 'store');
-    Route::post('edit-divisi', 'update');
     Route::post('hapus-divisi', 'destroy');
 });
 
@@ -61,7 +59,6 @@ Route::controller(DivisiController::class)->group(function() {
 Route::controller(KodeAsistenController::class)->group(function() {
     Route::get('kode-asisten', 'index');
     Route::post('tambah-kode', 'store');
-    Route::post('edit-kode', 'update');
     Route::post('hapus-kode', 'destroy');
 });
 
