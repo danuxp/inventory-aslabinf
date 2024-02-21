@@ -42,33 +42,33 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 
 
 // Angkatan
-Route::controller(AngkatanController::class)->group(function() {
+Route::controller(AngkatanController::class)->group(function () {
     Route::get('angkatan', 'index');
     Route::post('tambah-angkatan', 'store');
     Route::post('hapus-angkatan', 'destroy');
 });
 
 // Divisi
-Route::controller(DivisiController::class)->group(function() {
+Route::controller(DivisiController::class)->group(function () {
     Route::get('divisi', 'index');
     Route::post('tambah-divisi', 'store');
     Route::post('hapus-divisi', 'destroy');
 });
 
 // Kode Asisten
-Route::controller(KodeAsistenController::class)->group(function() {
+Route::controller(KodeAsistenController::class)->group(function () {
     Route::get('kode-asisten', 'index');
     Route::post('tambah-kode', 'store');
     Route::post('hapus-kode', 'destroy');
 });
 
 // Profile
-Route::controller(BiodataController::class)->group(function() {
+Route::controller(BiodataController::class)->group(function () {
     Route::get('profile', 'profile');
 });
 
 // Nama Lab
-Route::controller(NamaLabController::class)->group(function() {
+Route::controller(NamaLabController::class)->group(function () {
     Route::get('nama-lab', 'index');
     Route::post('tambah-lab', 'store');
     Route::post('edit-lab', 'update');
@@ -76,13 +76,15 @@ Route::controller(NamaLabController::class)->group(function() {
 });
 
 // Pj Lab
-Route::controller(PjLabController::class)->group(function() {
+Route::controller(PjLabController::class)->group(function () {
     Route::get('pj-lab', 'index');
-    Route::post('tambah-pjlab', 'store');
+    Route::post('pj-lab', 'store');
+    Route::post('hapus-pj-lab', 'destroy');
+    Route::post('nonaktif-pj-lab', 'nonaktif');
 });
 
 // Lap Rapat
-Route::controller(LapRapatController::class)->group(function() {
+Route::controller(LapRapatController::class)->group(function () {
     Route::get('lap-rapat', 'index');
     Route::post('tambah-lap-rapat', 'store');
     Route::get('lap-rapat-cetak/{id}', 'cetak');
@@ -90,7 +92,7 @@ Route::controller(LapRapatController::class)->group(function() {
 });
 
 // Route get data ajax
-Route::controller(DataAjaxController::class)->group(function() {
+Route::controller(DataAjaxController::class)->group(function () {
     // angkatan
     Route::post('getIdAngkatan', 'getIdAngkatan');
     Route::get('getDataAngkatan', 'getDataAngkatan');
@@ -109,12 +111,12 @@ Route::controller(DataAjaxController::class)->group(function() {
 
     // Biodata
     Route::post('getIdBiodata', 'getIdBiodata');
-    
 
+    Route::post('getIdPjLab', 'getIdPjLab');
 });
 
 // Registrasi Asisten
-Route::controller(RegistrasiAsistenControlller::class)->group(function() {
+Route::controller(RegistrasiAsistenControlller::class)->group(function () {
     Route::get('registrasi-asisten', 'index');
     Route::get('tambah-asisten', 'tambah_asisten');
     Route::post('tambah-asisten', 'store');

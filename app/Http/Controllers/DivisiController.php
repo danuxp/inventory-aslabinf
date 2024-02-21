@@ -20,8 +20,8 @@ class DivisiController extends Controller
             'title' => 'Divisi',
             'divisi' => Divisi::all()
         ];
-              
-        return view('divisi.index', $data); 
+
+        return view('divisi.index', $data);
     }
 
     /**
@@ -42,7 +42,7 @@ class DivisiController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
- 
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
@@ -59,39 +59,35 @@ class DivisiController extends Controller
         $cek_divisi = Divisi::where('nama_divisi', $nama_divisi)->get();
 
 
-        if($cek_kode == true or count($cek_divisi) == 1) {
+        if ($cek_kode == true or count($cek_divisi) == 1) {
             Alert::warning('Peringatan', 'Maaf Data Sudah Ada');
             return redirect()->back();
         } else {
-            if(is_null($id)) {
+            if (is_null($id)) {
                 try {
                     $data['kd_divisi'] = $kode;
                     Divisi::create($data);
                     Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-                    return redirect()->back();
                 } catch (\Throwable $th) {
                     Alert::error('Gagal', $th->getMessage());
-                    return redirect()->back();
                 }
+                return redirect()->back();
             } else {
                 try {
                     $update = Divisi::find($id);
                     $update->update($data);
-                    Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-                    return redirect()->back();
+                    Alert::success('Berhasil', 'Data Berhasil Diedit');
                 } catch (\Throwable $th) {
                     Alert::error('Gagal', $th->getMessage());
-                    return redirect()->back();
                 }
+                return redirect()->back();
             }
-            
         }
-
     }
 
     public function destroy(Request $request)
     {
-        $id = $request->id; 
+        $id = $request->id;
         try {
             $result = Divisi::find($id);
             $result->delete();

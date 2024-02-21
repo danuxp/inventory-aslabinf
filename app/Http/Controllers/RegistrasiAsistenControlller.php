@@ -24,7 +24,6 @@ class RegistrasiAsistenControlller extends Controller
 
         ];
         return view('biodata.register', $data);
-
     }
 
     public function store(Request $request)
@@ -45,9 +44,21 @@ class RegistrasiAsistenControlller extends Controller
             'angkatan.required' => 'Angkatan harus diisi',
         ];
 
+        if (is_null($id)) {
+            $rules['nim'] = 'required|unique:biodatas,nim';
+            $rules['nim'] = 'required|unique:users,username';
+            $message['nim'] = [
+                'required' => 'Nim harus diisi',
+                'unique' => 'Nim sudah ada'
+            ];
+            $cek_id = true;
+        } else {
+            $cek_id = false;
+        }
+
         $validator = Validator::make($request->all(), $rules, $message);
 
- 
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
@@ -63,37 +74,29 @@ class RegistrasiAsistenControlller extends Controller
         ];
 
         $user = [
-            'nim' => $request->nim,
             'username' => $request->nim,
             'password' => Hash::make($request->nim),
             'role' => 1
         ];
 
-        if(is_null($id)) {
-            $rules['nim'] = 'required|unique:biodatas,nim';
-            $rules['nim'] = 'required|unique:users,nim';
-            $message['nim'] = ['required' => 'Nim harus diisi',
-            'unique' => 'Nim sudah ada'];
-
-             try {
+        if ($cek_id === true) {
+            try {
                 User::create($user);
                 Biodata::create($data);
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-                return redirect()->back();
-             } catch (\Throwable $th) {
+            } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();
-             }
+            }
+            return redirect()->back();
         } else {
             try {
                 $update = Biodata::find($id);
                 $update->update($data);
                 Alert::success('Berhasil', 'Data Berhasil Diupdate');
-                return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();
             }
+            return redirect()->back();
         }
     }
 
@@ -107,11 +110,9 @@ class RegistrasiAsistenControlller extends Controller
             $delete->delete();
             $user->delete();
             Alert::success('Berhasil', 'Data Berhasil Dihapus');
-            return redirect()->back();
         } catch (\Throwable $th) {
             Alert::success('Gagal', $th);
-            return redirect()->back();
         }
-
+        return redirect()->back();
     }
 }

@@ -37,55 +37,59 @@ class KodeAsistenController extends Controller
     {
         $rules = [];
 
+        $id = $request->id;
+        $bio_id = $request->bio_id;
+
         $message = [
             'asisten.required' => 'Kolom asisten harus diisi',
+            'asisten.unique' => 'Data asisten sudah ada',
             'kode_asisten.required' => 'Kolom kode asisten harus diisi',
             'kode_asisten.unique' => 'Kode asisten tidak boleh sama'
         ];
 
+        if (is_null($id)) {
+            $rules['asisten'] = 'required|unique:kode_asistens,bio_id';
+            $rules['kode_asisten'] = 'required|unique:kode_asistens,kd_asisten';
+            $cek_id = true;
+        } else {
+            $cek_id = false;
+        }
+
+
         $validator = Validator::make($request->all(), $rules, $message);
- 
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        $id = $request->id;
-        $bio_id = $request->bio_id;
 
         $data = [
             'bio_id' => is_null($bio_id) ? $request->asisten : $bio_id,
             'kd_asisten' => strtoupper($request->kode_asisten)
         ];
 
-        if(is_null($id)) {
-            $rules['asisten'] = 'required|unique:kode_asistens,asisten';
-            $rules['kode_asisten'] = 'required|unique:kode_asistens,kd_asisten';
+        if ($cek_id === true) {
             try {
                 KodeAsisten::create($data);
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-                return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();
             }
-
+            return redirect()->back();
         } else {
             try {
                 $update = KodeAsisten::find($id);
                 $update->update($data);
                 Alert::success('Berhasil', 'Data Berhasil Diupdate');
-                return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();
             }
-
+            return redirect()->back();
         }
     }
 
     public function destroy(Request $request)
     {
-        $id = $request->id; 
+        $id = $request->id;
         try {
             $result = KodeAsisten::find($id);
             $result->delete();

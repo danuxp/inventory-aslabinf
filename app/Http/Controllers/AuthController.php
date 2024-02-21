@@ -16,6 +16,8 @@ class AuthController extends Controller
 {
     public function index()
     {
+
+        // dd(Auth::attempt());
         $data = [
             'title' => 'Login',
         ];
@@ -39,12 +41,12 @@ class AuthController extends Controller
         //     'password' => 'required'
         // ];
 
-        $credentials = $request->validate([
+       $request->validate([
             'username' => 'required',
             'password' => 'required',
         ],
         [
-        'username.required' => 'Username tidak boleh kosong',
+        'username.required' => 'Nim tidak boleh kosong',
         'password.required' => 'Password tidak boleh kosong',
          ]
     );
@@ -60,15 +62,19 @@ class AuthController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput($request->all());
         // }
 
-        // $credentials = $request->only('username', 'password');
+        $credentials = $request->only('username', 'password');
+        // dd($credentials);
         if(Auth::attempt($credentials)) {
+            Auth::user();
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
-        }
+        } else {
+        
+            return back()->withErrors([
+                'username' => 'Your provided credentials do not match in our records.',
+            ])->onlyInput('username');
 
-        return back()->withErrors([
-            'username' => 'Your provided credentials do not match in our records.',
-        ])->onlyInput('username');
+        }
     }
 
     public function store(Request $request)

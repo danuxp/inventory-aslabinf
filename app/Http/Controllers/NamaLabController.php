@@ -30,7 +30,7 @@ class NamaLabController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
- 
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
@@ -41,34 +41,30 @@ class NamaLabController extends Controller
             'nama' => strtoupper($request->nama_lab),
         ];
 
-        if(is_null($id)) {
+        if (is_null($id)) {
             try {
                 NamaLab::create($data);
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-                return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();
             }
+            return redirect()->back();
         } else {
             try {
                 $update = NamaLab::find($id);
                 $update->update($data);
                 Alert::success('Berhasil', 'Data Berhasil Diupdate');
-                return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();
             }
-            
-            
+            return redirect()->back();
         }
     }
 
 
     public function destroy(Request $request, NamaLab $namaLab)
     {
-        $id = $request->id; 
+        $id = $request->id;
         try {
             $result = $namaLab->findOrFail($id);
             $result->delete();

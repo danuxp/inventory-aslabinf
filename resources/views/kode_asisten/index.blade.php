@@ -105,21 +105,7 @@
 <div class="card-box mb-30">
     <div class="pd-20">
         <h4 class="text-blue h4">Data Tabel Kode Asisten</h4>
-        @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show alert-notif" role="alert">
-            <ol type="1">
-                @foreach ($errors->all() as $error)
-                <li>
-                    <strong>{{ $error }}</strong>
-                </li>
-                @endforeach
-            </ol>
-            <strong></strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        @endif
+       
 
     </div>
     <div class="pb-20">
