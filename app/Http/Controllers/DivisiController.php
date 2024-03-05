@@ -9,11 +9,6 @@ use Alert;
 
 class DivisiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $data = [
@@ -24,13 +19,7 @@ class DivisiController extends Controller
         return view('divisi.index', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    protected function store(Request $request)
     {
         $rules = [
             'divisi' => 'required'
@@ -85,7 +74,7 @@ class DivisiController extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    protected function destroy(Request $request)
     {
         $id = $request->id;
         try {

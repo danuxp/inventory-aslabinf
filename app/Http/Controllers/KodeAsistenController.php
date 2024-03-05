@@ -11,11 +11,6 @@ use Alert;
 
 class KodeAsistenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(KodeAsisten $kodeAsisten)
     {
         $data = [
@@ -27,13 +22,7 @@ class KodeAsistenController extends Controller
         return view('kode_asisten.index', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    protected function store(Request $request)
     {
         $rules = [];
 
@@ -50,9 +39,6 @@ class KodeAsistenController extends Controller
         if (is_null($id)) {
             $rules['asisten'] = 'required|unique:kode_asistens,bio_id';
             $rules['kode_asisten'] = 'required|unique:kode_asistens,kd_asisten';
-            $cek_id = true;
-        } else {
-            $cek_id = false;
         }
 
 
@@ -67,7 +53,7 @@ class KodeAsistenController extends Controller
             'kd_asisten' => strtoupper($request->kode_asisten)
         ];
 
-        if ($cek_id === true) {
+        if (is_null($id)) {
             try {
                 KodeAsisten::create($data);
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
@@ -87,7 +73,7 @@ class KodeAsistenController extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    protected function destroy(Request $request)
     {
         $id = $request->id;
         try {

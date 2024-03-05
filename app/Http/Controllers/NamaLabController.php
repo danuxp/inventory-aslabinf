@@ -19,7 +19,7 @@ class NamaLabController extends Controller
         return view('nama_lab.index', $data);
     }
 
-    public function store(Request $request)
+    protected function store(Request $request)
     {
         $rules = [
             'nama_lab' => 'required'

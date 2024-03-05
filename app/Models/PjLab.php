@@ -27,14 +27,15 @@ class PjLab extends Model
     {
         $data = [];
 
-        $query = DB::table('pj_labs')->join('nama_labs', 'nama_labs.id', '=', 'pj_labs.lab_id')->select('pj_labs.*', 'nama_labs.nama as namalab')->where('pj_labs.status', 'A')->get();
+        $query = DB::table('pj_labs')->join('nama_labs', 'nama_labs.id', '=', 'pj_labs.lab_id')->select('pj_labs.*', 'nama_labs.nama as namalab')->get();
         foreach ($query as $row) {
             $bio_id = json_decode($row->bio_id, true);
 
             $data[$row->id] = [
                 'bio_id' => $bio_id,
                 'asisten' => [],
-                'nama_lab' => $row->namalab
+                'nama_lab' => $row->namalab,
+                'status' => $row->status
             ];
             $biodata = Biodata::all();
             foreach ($biodata as $bio) {

@@ -13,7 +13,7 @@ class LapRapatController extends Controller
 {
     public function index()
     {
-        
+
         $data = [
             'title' => 'Laporan Rapat',
             'data' => LapRapat::all()
@@ -21,7 +21,7 @@ class LapRapatController extends Controller
         return view('lap_rapat.index', $data);
     }
 
-    public function store(Request $request)
+    protected function store(Request $request)
     {
         $rules = [
             'tanggal' => 'required|date',
@@ -37,7 +37,7 @@ class LapRapatController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
- 
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
@@ -50,7 +50,7 @@ class LapRapatController extends Controller
             'catatan' => $request->catatan
         ];
 
-        if(is_null($id)) {
+        if (is_null($id)) {
             try {
                 $data['author'] = 'Tes';
                 $data['tempat'] = $request->tempat == null ? 'Laboratorium' : $request->tempat;
@@ -61,7 +61,6 @@ class LapRapatController extends Controller
                 Alert::error('Gagal', $th->getMessage());
                 return redirect()->back();
             }
-
         } else {
             try {
                 $update = LapRapat::find($id);
@@ -74,12 +73,11 @@ class LapRapatController extends Controller
                 return redirect()->back();
             }
         }
-
     }
 
-    public function destroy(Request $request)
+    protected function destroy(Request $request)
     {
-        $id = $request->id; 
+        $id = $request->id;
         try {
             $result = LapRapat::find($id);
             $result->delete();
@@ -93,14 +91,14 @@ class LapRapatController extends Controller
 
     public function cetak($id = null)
     {
-        if($id) {
+        if ($id) {
             try {
                 $decrypt_id = Crypt::decryptString($id);
                 $data = [
                     'data' => LapRapat::find($decrypt_id),
-                    'title' => 'Laporan Rapat_'.date('Y-m-d')
+                    'title' => 'Laporan Rapat_' . date('Y-m-d')
                 ];
-            
+
                 $pdf = PDF::loadView('lap_rapat.cetak', $data);
                 return $pdf->stream('cetak_laporan.pdf');
             } catch (\Throwable $th) {

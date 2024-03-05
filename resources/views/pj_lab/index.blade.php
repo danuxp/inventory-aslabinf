@@ -123,6 +123,8 @@
                             </ul>
                     </td>
                     <td>
+                        @if ($item['status'] == 'A')
+                            
                         <button type="button" class="btn btn-sm btn-info btn-edit" id="{{ $key }}" data-toggle="toggle"
                             title="Edit" data-placement="bottom"><i class="icon-copy fa fa-edit"
                                 aria-hidden="true"></i></button>
@@ -134,12 +136,12 @@
                         <button type="button" class="btn btn-sm btn-warning btn-nonaktif" data-toggle="toggle" title="Nonaktif"
                             id="{{ $key }}"><i class=" icon-copy fa fa-warning" aria-hidden="true" data-toggle="tooltip"
                                 title="Nonaktif" data-placement="bottom"></i></button>
+                        @else
+                            <span class="badge badge-danger"> <i class="fa fa-close"></i> Nonaktif</span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
-
-
-
             </tbody>
         </table>
     </div>

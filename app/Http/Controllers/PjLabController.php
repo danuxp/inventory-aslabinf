@@ -8,7 +8,6 @@ use App\Models\PjLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Alert;
-use Illuminate\Support\Facades\DB;
 
 
 class PjLabController extends Controller
@@ -20,20 +19,16 @@ class PjLabController extends Controller
         // })->join('nama_labs as nl', 'nl.id', '=', 'pj_labs.lab_id')->select('pj_labs.*', 'b.nim', 'b.nama_lengkap', 'b.nama_cantik', 'b.angkatan', 'nl.nama as nama_lab')
         //     ->get();
 
-
         $data = [
             'title' => 'Pj Laboratorium',
             'asisten' => Biodata::all(),
             'nama_lab' => NamaLab::all(),
             'data' => $pjLab->getDataPjLab()
         ];
-        // var_dump($data['data']);
-        // echo "<pre>", var_dump($data['data']), "</pre>";
-        // die;
         return view('pj_lab.index', $data);
     }
 
-    public function store(Request $request)
+    protected function store(Request $request)
     {
 
         $id = $request->id;
@@ -65,8 +60,6 @@ class PjLabController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-
 
         $data = [
             'bio_id' => json_encode(array_map('intval', $bio_id)),
@@ -114,7 +107,7 @@ class PjLabController extends Controller
         return $result;
     }
 
-    public function destroy(Request $request)
+    protected function destroy(Request $request)
     {
         $id = $request->id;
         try {
@@ -127,7 +120,7 @@ class PjLabController extends Controller
         return redirect()->back();
     }
 
-    public function nonaktif(Request $request)
+    protected function nonaktif(Request $request)
     {
         $id = $request->id;
         try {

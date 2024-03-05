@@ -26,7 +26,7 @@ class RegistrasiAsistenControlller extends Controller
         return view('biodata.register', $data);
     }
 
-    public function store(Request $request)
+    protected function store(Request $request)
     {
         $id = $request->id;
 
@@ -100,7 +100,7 @@ class RegistrasiAsistenControlller extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    protected function destroy(Request $request)
     {
         $id = $request->id;
         try {

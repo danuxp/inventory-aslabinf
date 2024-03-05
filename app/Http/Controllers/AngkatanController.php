@@ -16,10 +16,10 @@ class AngkatanController extends Controller
             'angkatan' => Angkatan::all()
         ];
 
-        return view('angkatan.index', $data); 
+        return view('angkatan.index', $data);
     }
 
-    public function store(Request $request)
+    protected function store(Request $request)
     {
         $rules = [
             'angkatan' => 'required|numeric'
@@ -31,7 +31,7 @@ class AngkatanController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
- 
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
@@ -42,14 +42,14 @@ class AngkatanController extends Controller
             'angkatan_ke' => $request->angkatan
         ];
 
-        if(is_null($id)) {
+        if (is_null($id)) {
             try {
                 Angkatan::create($data);
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
                 return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();  
+                return redirect()->back();
             }
         } else {
             try {
@@ -59,14 +59,14 @@ class AngkatanController extends Controller
                 return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back(); 
+                return redirect()->back();
             }
         }
     }
 
-    public function destroy(Request $request)
+    protected function destroy(Request $request)
     {
-        $id = $request->id; 
+        $id = $request->id;
         try {
             $data = Angkatan::find($id);
             $data->delete();

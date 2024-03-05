@@ -29,6 +29,8 @@
 
 
 <div class="pd-20 card-box mb-30">
+    <h4 class="h4 text-blue">Form Divisi</h4>
+
     <form action="{{ url('/tambah-divisi') }}" method="POST">
         @csrf
         <input type="hidden" name="id" id="id">

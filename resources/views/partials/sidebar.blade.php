@@ -134,7 +134,15 @@
                     <a href="/lap-rapat"
                         class="dropdown-toggle no-arrow {{ request()->is('lap-rapat') ? 'active' : '' }}">
                         <i class="micon dw dw-notebook"></i>
-                        <span class="mtext">Lap. Rapat</span>
+                        <span class="mtext">Laporan Rapat</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/inventory-lab"
+                        class="dropdown-toggle no-arrow {{ request()->is('inventory-lab') ? 'active' : '' }}">
+                        <i class="micon dw dw-computer-1"></i>
+                        <span class="mtext">Inventory Lab</span>
                     </a>
                 </li>
 

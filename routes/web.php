@@ -7,6 +7,7 @@ use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataAjaxController;
 use App\Http\Controllers\DivisiController;
+use App\Http\Controllers\InventoryLabController;
 use App\Http\Controllers\KodeAsistenController;
 use App\Http\Controllers\LapRapatController;
 use App\Http\Controllers\NamaLabController;
@@ -112,7 +113,11 @@ Route::controller(DataAjaxController::class)->group(function () {
     // Biodata
     Route::post('getIdBiodata', 'getIdBiodata');
 
+    // Pj Lab
     Route::post('getIdPjLab', 'getIdPjLab');
+
+    // Pj Lab
+    Route::post('getIdInventoryLab', 'getIdInventoryLab');
 });
 
 // Registrasi Asisten
@@ -121,4 +126,13 @@ Route::controller(RegistrasiAsistenControlller::class)->group(function () {
     Route::get('tambah-asisten', 'tambah_asisten');
     Route::post('tambah-asisten', 'store');
     Route::post('hapus-asisten', 'destroy');
+});
+
+Route::controller(InventoryLabController::class)->group(function () {
+    Route::get('inventory-lab', 'index');
+    Route::post('inventory-lab', 'store');
+    Route::post('delete-item-lab', 'deleteItem');
+    // Route::get('tambah-asisten', 'tambah_asisten');
+    // Route::post('tambah-asisten', 'store');
+    // Route::post('hapus-asisten', 'destroy');
 });

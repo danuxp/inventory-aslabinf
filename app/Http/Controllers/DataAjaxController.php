@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Angkatan;
 use App\Models\Biodata;
 use App\Models\Divisi;
+use App\Models\InventoryLab;
 use App\Models\KodeAsisten;
 use App\Models\LapRapat;
 use App\Models\NamaLab;
@@ -70,6 +71,13 @@ class DataAjaxController extends Controller
     {
         $id = $request->id;
         $data = PjLab::find($id);
+        return response()->json($data);
+    }
+
+    public function getIdInventoryLab(Request $request)
+    {
+        $id = $request->id;
+        $data = InventoryLab::find($id);
         return response()->json($data);
     }
 }
