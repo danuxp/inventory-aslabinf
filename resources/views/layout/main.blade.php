@@ -25,6 +25,9 @@
 
 	<link rel="stylesheet" type="text/css" href="src/plugins/datetimepicker/datetimepicker.css">
 
+	<link rel="stylesheet" type="text/css" href="src/styles/loader.css">
+
+
 </head>
 
 <body>
@@ -46,6 +49,7 @@
 	</div>
 
 	@include('sweetalert::alert')
+	{{-- <script src="vendors/scripts/sweetalert.min.js"></script> --}}
 
 	{{-- Js --}}
 	<script src="src/scripts/jquery.min.js"></script>
@@ -69,7 +73,6 @@
 
 	<script src="src/scripts/custom.js"></script>
 
-	{{-- <script src="vendors/scripts/dashboard.js"></script> --}}
 	<script src="vendors/scripts/datatable-setting.js"></script>
 
 

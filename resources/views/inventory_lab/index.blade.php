@@ -12,8 +12,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form action="/hapus-kode" method="post">
+                <form id="formUpdate" method="post">
                     @csrf
+                    <input type="hidden" name="id" id="id_addnew_item">
+
                     <div class="d-flex justify-content-end align-items-center mb-3">
                         <p>
                             Klik disini jika ingin menambahkan data
@@ -33,14 +35,13 @@
                             </tr>
                         </thead>
                         <tbody id="data">
-                            
                         </tbody>
                     </table>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
-                <button type="submit" class="btn btn-danger">Ya</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="submit" class="btn btn-primary d-none" id="btn-add-item">Update</button>
             </div>
             </form>
         </div>
@@ -54,19 +55,20 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Peringatan</h4>
+                <h4 class="modal-title" id="hapusItemModalLabel"></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form action="/delete-item-lab" method="post">
+                <form id="formHapusItem" method="post">
                     @csrf
-                    <p>Apakah anda yakin ingin menghapus <strong id="nm-item"></strong> ?</p>
+                    <div class="konten">
+                    </div>
                     <input type="hidden" name="id" id="id_hapus_item">
                     <input type="hidden" name="key" id="key_hapus_item">
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+            <div class="modal-footer" id="hapus-item-modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                 <button type="submit" class="btn btn-danger">Ya</button>
             </div>
             </form>
@@ -141,6 +143,13 @@
 
 @section('script')
 <script>
+// $(document).ready(function(){
+//     Swal.fire({
+//       title: "Good job!",
+//       text: "You clicked the button!",
+//       icon: "success"
+//     });
+// })
     $('#btn-plus').on('click', function(){
         // e.preventDefault();
         let input = `
@@ -180,8 +189,8 @@
         e.preventDefault();
         let id = $(this).attr('id');
         let nama = $(this).data('nama');
-        // console.log(id);
         get_data(id, nama);
+        $('#id_addnew_item').val(id);
         $('#view-modal').modal('show');
     })
 
@@ -207,16 +216,16 @@
                     <tr>
                         <td>${key+1}</td>
                         <td>
-                            <input type="text" class="form-control" value="${row.nama}">
+                            <input type="text" class="form-control" name="barang_add[]" value="${row.nama}">
                         </td>
                         <td>
-                            <input type="number" class="form-control" value="${jml_baik}">
+                            <input type="number" class="form-control" name="jmlbaik_add[]" value="${jml_baik}">
                         </td>
                         <td>
-                            <input type="number" class="form-control" value="${jml_rusak}">
+                            <input type="number" class="form-control" name="jmlrusak_add[]" value="${jml_rusak}">
                         </td>
                         <td>
-                            <input type="number" class="form-control" value="${total}">
+                            <input type="text" class="form-control total_add" value="${total}" readonly>
                         </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-danger btn-hapus-modal" data-toggle="toggle" title="Hapus"
@@ -235,21 +244,20 @@
     $('#btn-plus-modal').on('click', function(e){
         e.preventDefault();
         let rowCount = $('#data tr').length;
-        console.log(1);
         let newRow = `
             <tr>
                 <td>${rowCount + 1}</td>
                 <td>
-                    <input type="text" class="form-control" value="">
+                    <input type="text" class="form-control" name="barang_add[]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" value="">
+                    <input type="number" class="form-control" name="jmlbaik_add[]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" value="">
+                    <input type="number" class="form-control" name="jmlrusak_add[]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" value="">
+                    <input type="text" class="form-control total_add" readonly>
                 </td>
                 <td>
                     <button type="button" class="btn btn-sm btn-warning btn-close" data-toggle="toggle" title="Hapus">
@@ -259,7 +267,7 @@
             </tr>
         `;
         
-        // Menambahkan data baru ke tabel
+        $('#btn-add-item').removeClass('d-none');
         $('#data').append(newRow);
     })
 
@@ -272,6 +280,10 @@
     $(document).on('click', '.btn-close', function() {
         $(this).closest('tr').remove();
         updateRowNumbers();
+        let lengthBtn = $('.btn-close').length;
+        if(lengthBtn == 0) {
+            $('#btn-add-item').addClass('d-none');
+        }
     });
 
     $(document).delegate('.btn-hapus-modal', 'click',  function(e){
@@ -282,9 +294,77 @@
         $('#id_hapus_item').val(id);
         $('#key_hapus_item').val(key);
         $('#nm-item').text(nama);
+
+        $('.konten').html('<p>Apakah anda yakin ingin menghapus <strong id="nm-item"></strong> ?</p>');
+        
+        $('#hapusItemModalLabel').text('Peringatan!')
         $('#hapus-item-modal').modal('show');
-        // console.log(key);
     })
+
+    $(document).delegate('#formHapusItem', 'submit', function(e){
+        e.preventDefault();
+        // $('.konten').html('<div class="loader mx-auto"></div>');
+
+        let id = $('#id_hapus_item').val();
+        let key = $('#key_hapus_item').val();
+        $.ajax({
+            method: "POST",
+            url: "delete-item-lab",
+            data: {
+                id,
+                key,
+                _token: '{{ csrf_token() }}'
+            }, success: function(res) {
+                $('#hapusItemModalLabel').text('Berhasil!')
+                $('#hapus-item-modal-footer').html('');
+
+                $('.konten').html('<p>Data berhasil dihapus</p>');
+                $('#hapus-item-modal').modal('show');
+                console.log(res);
+            }
+        })
+    })
+
+
+    $(document).delegate('#formUpdate', 'submit', function(e){
+        e.preventDefault();
+        let barang_add = $('input[name="barang_add[]"]').map(function(){return $(this).val();}).get();
+        let jmlbaik_add = $('input[name="jmlbaik_add[]"]').map(function(){return $(this).val();}).get();
+        let jmlrusak_add = $('input[name="jmlrusak_add[]"]').map(function(){return $(this).val();}).get();
+        let id = $('#id_addnew_item').val();
+        console.log(barang_add, jmlbaik_add, jmlrusak_add);
+        $.ajax({
+            method: "POST",
+            url: "addnew-item-lab",
+            data: {
+                id,
+                barang_add,
+                jmlbaik_add,
+                jmlrusak_add,
+                _token: '{{ csrf_token() }}'
+            }, success: function(res) {
+                
+                console.log(res);
+            }
+        })
+
+    })
+
+    $(document).delegate('input[name="jmlbaik_add[]"]', 'keyup', function() {
+        updateTotal($(this).closest('tr'));
+    });
+
+    $(document).delegate('input[name="jmlrusak_add[]"]', 'keyup',function() {
+        updateTotal($(this).closest('tr'));
+    });
+
+    
+    function updateTotal(row) {
+        var jmlBaik = parseInt(row.find('input[name="jmlbaik_add[]"]').val()) || 0; 
+        var jmlRusak = parseInt(row.find('input[name="jmlrusak_add[]"]').val()) || 0; 
+        var total = jmlBaik + jmlRusak;
+        row.find('.total_add').val(total);
+    }
 
 </script>
 @endsection

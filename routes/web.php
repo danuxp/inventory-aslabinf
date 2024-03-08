@@ -131,6 +131,7 @@ Route::controller(RegistrasiAsistenControlller::class)->group(function () {
 Route::controller(InventoryLabController::class)->group(function () {
     Route::get('inventory-lab', 'index');
     Route::post('inventory-lab', 'store');
+    Route::post('addnew-item-lab', 'addNewRow');
     Route::post('delete-item-lab', 'deleteItem');
     // Route::get('tambah-asisten', 'tambah_asisten');
     // Route::post('tambah-asisten', 'store');
