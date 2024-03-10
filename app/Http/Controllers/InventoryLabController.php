@@ -8,14 +8,14 @@ use App\Models\NamaLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Alert;
+use Illuminate\Support\Facades\Crypt;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InventoryLabController extends Controller
 {
     public function index()
     {
         $invlab = new InventoryLab();
-        // $r = $invlab->lab->nama;
-        // dd($r);
         $data = [
             "title" => "Inventory Lab",
             "nama_lab" => NamaLab::all(),
@@ -65,14 +65,17 @@ class InventoryLabController extends Controller
     {
         $id = $request->id;
         $key = $request->key;
-        // $q = DB::table('inventory_labs')
-        //     ->where('id', $id)
-        //     ->update([
-        //         'barang' => DB::raw("JSON_REMOVE(barang, '$[$key]')")
-        //     ]);
-
-        // return redirect()->back();
-        return response()->json(['message' => 'Baris baru berhasil ditambahkan'], 200);
+        try {
+            DB::table('inventory_labs')
+                ->where('id', $id)
+                ->update([
+                    'barang' => DB::raw("JSON_REMOVE(barang, '$[$key]')")
+                ]);
+            $response = ['title' => 'Berhasil', 'icon' => 'success', 'text' => 'Berhasil diupdate'];
+        } catch (\Throwable $th) {
+            $response = ['title' => 'Gagal', 'icon' => 'error', 'text' => 'Gagal diupdate'];
+        }
+        return response()->json($response);
     }
 
     public function addNewRow(Request $request)
@@ -92,14 +95,51 @@ class InventoryLabController extends Controller
             ];
         }
 
-
         $updatedData = json_encode($jsonData);
 
-        // dd($updatedData);
-        return response()->json($updatedData);
+        try {
+            DB::table('inventory_labs')
+                ->where('id', $id)
+                ->update(['barang' => $updatedData]);
+            $response = ['title' => 'Berhasil', 'icon' => 'success', 'text' => 'Berhasil diupdate'];
+        } catch (\Throwable $th) {
+            $response = ['title' => 'Gagal', 'icon' => 'error', 'text' => 'Gagal diupdate'];
+        }
+        return response()->json($response);
+    }
 
-        // DB::table('nama_table')
-        //     ->where('id', $id)
-        //     ->update(['barang' => $updatedData]);
+    public function hapus(Request $request)
+    {
+        $id = $request->id;
+        try {
+            $inventory = InventoryLab::find($id);
+            $inventory->delete();
+            $response = ['title' => 'Berhasil', 'icon' => 'success', 'text' => 'Berhasil dihapus'];
+        } catch (\Throwable $th) {
+            $response = ['title' => 'Gagal', 'icon' => 'error', 'text' => 'Gagal dihapus'];
+        }
+        return response()->json($response);
+    }
+
+    public function cetak($id = null)
+    {
+        if ($id) {
+            try {
+                $decrypt_id = Crypt::decryptString($id);
+                $inventoryLab = new InventoryLab();
+                $getdata = $inventoryLab->joinNamaLab($decrypt_id)[0];
+                $data = [
+                    'data' => $getdata,
+                    'title' => 'Inventory Lab ' . $getdata->nama
+                ];
+
+                $pdf = PDF::loadView('inventory_lab.cetak', $data);
+                return $pdf->stream($data['title'] . '.pdf');
+            } catch (\Throwable $th) {
+                abort(404);
+            }
+        } else {
+            abort(404);
+        }
     }
 }

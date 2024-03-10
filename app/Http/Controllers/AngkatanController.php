@@ -46,21 +46,19 @@ class AngkatanController extends Controller
             try {
                 Angkatan::create($data);
                 Alert::success('Berhasil', 'Data Berhasil Ditambahkan');
-                return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();
             }
+            return redirect()->back();
         } else {
             try {
                 $update = Angkatan::find($id);
                 $update->update($data);
                 Alert::success('Berhasil', 'Data Berhasil Diupdate');
-                return redirect()->back();
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
-                return redirect()->back();
             }
+            return redirect()->back();
         }
     }
 
@@ -70,11 +68,10 @@ class AngkatanController extends Controller
         try {
             $data = Angkatan::find($id);
             $data->delete();
-            Alert::success('Berhasil', 'Data Berhasil Dihapus');
-            return redirect()->back();
+            $response = ['title' => 'Berhasil', 'icon' => 'success', 'text' => 'Berhasil dihapus'];
         } catch (\Throwable $th) {
-            Alert::error('Gagal', $th->getMessage());
-            return redirect()->back();
+            $response = ['title' => 'Gagal', 'icon' => 'error', 'text' => 'Gagal dihapus'];
         }
+        return response()->json($response);
     }
 }

@@ -17,12 +17,14 @@ class InventoryLab extends Model
         return $this->belongsTo(NamaLab::class);
     }
 
-    public function joinNamalab()
+    public function joinNamalab($id = false)
     {
         $query = DB::table('inventory_labs as invlab')
             ->join('nama_labs as nmlab', 'invlab.lab_id', '=', 'nmlab.id')
-            ->select('invlab.*', 'nmlab.nama')
-            ->get();
-        return $query;
+            ->select('invlab.*', 'nmlab.nama');
+        if ($id !== false) {
+            $query->where('invlab.id', $id);
+        }
+        return $query->get();
     }
 }

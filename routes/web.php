@@ -133,7 +133,6 @@ Route::controller(InventoryLabController::class)->group(function () {
     Route::post('inventory-lab', 'store');
     Route::post('addnew-item-lab', 'addNewRow');
     Route::post('delete-item-lab', 'deleteItem');
-    // Route::get('tambah-asisten', 'tambah_asisten');
-    // Route::post('tambah-asisten', 'store');
-    // Route::post('hapus-asisten', 'destroy');
+    Route::post('hapus-inventory-lab', 'hapus');
+    Route::get('inventory-lab-cetak/{id}', 'cetak');
 });

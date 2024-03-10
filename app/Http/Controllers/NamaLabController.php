@@ -62,17 +62,16 @@ class NamaLabController extends Controller
     }
 
 
-    public function destroy(Request $request, NamaLab $namaLab)
+    public function destroy(Request $request)
     {
         $id = $request->id;
         try {
-            $result = $namaLab->findOrFail($id);
+            $result = NamaLab::find($id);
             $result->delete();
-            Alert::success('Berhasil', 'Data Berhasil Dihapus');
-            return redirect()->back();
+            $response = ['title' => 'Berhasil', 'icon' => 'success', 'text' => 'Berhasil dihapus'];
         } catch (\Throwable $th) {
-            Alert::error('Gagal', $th->getMessage());
-            return redirect()->back();
+            $response = ['title' => 'Gagal', 'icon' => 'error', 'text' => 'Gagal dihapus'];
         }
+        return response()->json($response);
     }
 }

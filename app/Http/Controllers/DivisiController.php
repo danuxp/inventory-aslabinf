@@ -80,11 +80,10 @@ class DivisiController extends Controller
         try {
             $result = Divisi::find($id);
             $result->delete();
-            Alert::success('Berhasil', 'Data Berhasil Dihapus');
-            return redirect()->back();
+            $response = ['title' => 'Berhasil', 'icon' => 'success', 'text' => 'Berhasil dihapus'];
         } catch (\Throwable $th) {
-            Alert::error('Peringatan', $th->getMessage());
-            return redirect()->back();
+            $response = ['title' => 'Gagal', 'icon' => 'error', 'text' => 'Gagal dihapus'];
         }
+        return response()->json($response);
     }
 }
