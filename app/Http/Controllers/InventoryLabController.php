@@ -30,6 +30,7 @@ class InventoryLabController extends Controller
         $nama_barang = $request->nama_barang;
         $jml_baik = $request->jml_baik;
         $jml_rusak = $request->jml_rusak;
+        $keterangan = $request->keterangan;
         $data_barang = [];
 
         $get_lab_id = InventoryLab::where('lab_id', $nama_lab)->first();
@@ -43,7 +44,8 @@ class InventoryLabController extends Controller
             $data_barang[] = [
                 'nama' => $row,
                 'jml_baik' => $jml_baik[$key],
-                'jml_rusak' => $jml_rusak[$key]
+                'jml_rusak' => $jml_rusak[$key],
+                'keterangan' => $keterangan[$key]
             ];
         }
 
@@ -84,6 +86,7 @@ class InventoryLabController extends Controller
         $barang_add = $request->barang_add;
         $jmlbaik_add = $request->jmlbaik_add;
         $jmlrusak_add = $request->jmlrusak_add;
+        $keterangan_add = $request->keterangan_add;
 
         $jsonData = [];
 
@@ -91,7 +94,8 @@ class InventoryLabController extends Controller
             $jsonData[] = [
                 'nama' => $row,
                 'jml_baik' => $jmlbaik_add[$key],
-                'jml_rusak' => $jmlrusak_add[$key]
+                'jml_rusak' => $jmlrusak_add[$key],
+                'keterangan' => $keterangan_add[$key],
             ];
         }
 
@@ -130,7 +134,8 @@ class InventoryLabController extends Controller
                 $getdata = $inventoryLab->joinNamaLab($decrypt_id)[0];
                 $data = [
                     'data' => $getdata,
-                    'title' => 'Inventory Lab ' . $getdata->nama
+                    'title' => 'Inventory Lab ' . $getdata->nama,
+                    'barang' => json_decode($getdata->barang, true)
                 ];
 
                 $pdf = PDF::loadView('inventory_lab.cetak', $data);

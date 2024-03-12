@@ -30,6 +30,7 @@
                                     <th>Jumlah Baik</th>
                                     <th>Jumlah Rusak</th>
                                     <th>Total</th>
+                                    <th>Keterangan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -133,7 +134,7 @@
             let input = `
         <div class="row form-group input-remove" id="form-input">
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label for="">Nama Barang</label>
             <input type="text" class="form-control" name="nama_barang[]">
         </div>
@@ -145,7 +146,11 @@
             <label for="">Jumlah Kondisi Rusak</label>
             <input type="number" class="form-control" min="0" name="jml_rusak[]">
         </div>
-        <div class="col-md-2 d-flex align-items-end">
+        <div class="col-md-3">
+            <label for="">Keterangan</label>
+            <input type="text" class="form-control" name="keterangan[]">
+        </div>
+        <div class="col-md-1 d-flex align-items-end">
             <button type="button" class="btn btn-danger" id="btn-remove"><i class="fa fa-close"></i></button>
         </div>
     </div>
@@ -206,6 +211,9 @@
                             <input type="text" class="form-control total_add" value="${total}" readonly>
                         </td>
                         <td>
+                            <input type="text" class="form-control" name="keterangan_add[]" value="${row.keterangan}" required>
+                        </td>
+                        <td>
                             <button type="button" class="btn btn-sm btn-danger btn-hapus-modal" data-toggle="toggle" title="Hapus"
                     id="${key}" data-nama="${row.nama}" data-id="${id}"><i class=" icon-copy fa fa-trash" aria-hidden="true"
                         data-toggle="tooltip" title="Hapus" data-placement="bottom"></i></button>
@@ -236,6 +244,9 @@
                 </td>
                 <td>
                     <input type="text" class="form-control total_add" readonly>
+                </td>
+                <td>
+                    <input type="text" class="form-control" name="keterangan_add[]" required>
                 </td>
                 <td>
                     <button type="button" class="btn btn-sm btn-warning btn-close" data-toggle="toggle" title="Hapus">
@@ -309,6 +320,9 @@
             let jmlrusak_add = $('input[name="jmlrusak_add[]"]').map(function() {
                 return $(this).val();
             }).get();
+            let keterangan_add = $('input[name="keterangan_add[]"]').map(function() {
+                return $(this).val();
+            }).get();
             let id = $('#id_addnew_item').val();
             let nmlab = $('#nmlab').text();
 
@@ -320,6 +334,7 @@
                     barang_add,
                     jmlbaik_add,
                     jmlrusak_add,
+                    keterangan_add,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(res) {

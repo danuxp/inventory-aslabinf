@@ -35,6 +35,7 @@ Route::get('register', [AuthController::class, 'register']);
 
 Route::post('/register-valid', [AuthController::class, 'store']);
 Route::post('/login-valid', [AuthController::class, 'loginValid']);
+Route::get('reload-captcha', [AuthController::class, 'reloadCaptcha']);
 
 
 

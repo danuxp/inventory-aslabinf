@@ -22,7 +22,6 @@ class AuthController extends Controller
             'title' => 'Login',
         ];
         return view('auth.login', $data);
-        
     }
 
     public function register()
@@ -34,22 +33,29 @@ class AuthController extends Controller
         return view('auth.register', $data);
     }
 
-    public function loginValid(Request $request): RedirectResponse
+    public function loginValid(Request $request)
     {
         // $rules = [
         //     'username' => 'required',
         //     'password' => 'required'
         // ];
 
-       $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ],
-        [
-        'username.required' => 'Nim tidak boleh kosong',
-        'password.required' => 'Password tidak boleh kosong',
-         ]
-    );
+        $request->validate(
+            [
+                'username' => 'required|numeric',
+                'password' => 'required',
+                'captcha' => 'required|captcha',
+            ],
+            [
+                'username.required' => 'Nim tidak boleh kosong',
+                'username.numeric' => 'Format nim tidak valid',
+                'password.required' => 'Password tidak boleh kosong',
+                'captcha.required' => 'Captcha tidak boleh kosong',
+                'captcha.captcha' => 'Captcha tidak valid',
+            ]
+        );
+
+        // return "success";
 
         // $message = [
         //     'username.required' => 'Username tidak boleh kosong',
@@ -57,24 +63,35 @@ class AuthController extends Controller
         // ];
 
         // $validator = Validator::make($request->all(), $credentials, $message);
- 
+
         // if ($validator->fails()) {
         //     return redirect()->back()->withErrors($validator)->withInput($request->all());
         // }
 
-        $credentials = $request->only('username', 'password');
-        // dd($credentials);
-        if(Auth::attempt($credentials)) {
-            Auth::user();
-            $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+        $data_login = [
+            'username' => $request->username,
+            'password' => $request->password,
+        ];
+
+        // $credentials = $request->only('username', 'password');
+        // // dd($credentials);
+        if (Auth::attempt($data_login)) {
+            // Auth::user();
+            // $request->session()->regenerate();
+            // return redirect()->intended('/dashboard');
+            echo "sukses";
+            exit;
         } else {
-        
+
             return back()->withErrors([
                 'username' => 'Your provided credentials do not match in our records.',
             ])->onlyInput('username');
-
         }
+    }
+
+    public function reloadCaptcha()
+    {
+        return response()->json(['captcha' => captcha_img('flat')]);
     }
 
     public function store(Request $request)
@@ -111,10 +128,10 @@ class AuthController extends Controller
 
 
         $validator = Validator::make($rules, $message);
- 
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
-        } 
+        }
 
         $dataBio = [
             'nim' => $request->nim,
@@ -132,7 +149,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ];
 
-        if(User::create($dataUser) == true) {
+        if (User::create($dataUser) == true) {
             Biodata::create($dataBio);
             // session()->flash('notif-success');
             Alert::success('Berhasil', 'Registrasi Berhasil, silahkan login!');
@@ -142,6 +159,5 @@ class AuthController extends Controller
             Alert::warning('Peringatan!', 'Registrasi Gagal, silahkan coba lagi');
             return redirect()->back();
         }
-       
     }
 }

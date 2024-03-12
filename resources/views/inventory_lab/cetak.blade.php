@@ -66,18 +66,19 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>sds</td>
-                    <td>sds</td>
-                    <td>sds</td>
-                    <td>sds</td>
-                    <td>sds</td>
-                    <td>sds</td>
-                </tr>
+                @foreach ($barang as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $item['nama'] }}</td>
+                        <td>{{ $item['jml_baik'] + $item['jml_rusak'] }}</td>
+                        <td>{{ $item['jml_baik'] }}</td>
+                        <td>{{ $item['jml_rusak'] }}</td>
+                        <td>{{ $item['keterangan'] }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
-
 </body>
 
 </html>
