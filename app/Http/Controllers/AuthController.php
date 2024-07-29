@@ -16,8 +16,6 @@ class AuthController extends Controller
 {
     public function index()
     {
-
-        // dd(Auth::attempt());
         $data = [
             'title' => 'Login',
         ];
@@ -42,13 +40,13 @@ class AuthController extends Controller
 
         $request->validate(
             [
-                'username' => 'required|numeric',
+                'username' => 'required',
                 'password' => 'required',
                 'captcha' => 'required|captcha',
             ],
             [
                 'username.required' => 'Nim tidak boleh kosong',
-                'username.numeric' => 'Format nim tidak valid',
+                // 'username.numeric' => 'Format nim tidak valid',
                 'password.required' => 'Password tidak boleh kosong',
                 'captcha.required' => 'Captcha tidak boleh kosong',
                 'captcha.captcha' => 'Captcha tidak valid',
@@ -73,16 +71,12 @@ class AuthController extends Controller
             'password' => $request->password,
         ];
 
-        // $credentials = $request->only('username', 'password');
-        // // dd($credentials);
         if (Auth::attempt($data_login)) {
-            // Auth::user();
-            // $request->session()->regenerate();
-            // return redirect()->intended('/dashboard');
-            echo "sukses";
-            exit;
+            Auth::user();
+            // $request->session([]);
+            Alert::success('Berhasil', 'Login Berhasil!');
+            return redirect()->to('/dashboard');
         } else {
-
             return back()->withErrors([
                 'username' => 'Your provided credentials do not match in our records.',
             ])->onlyInput('username');
@@ -149,15 +143,20 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ];
 
-        if (User::create($dataUser) == true) {
+        try {
+            User::create($dataUser);
             Biodata::create($dataBio);
-            // session()->flash('notif-success');
             Alert::success('Berhasil', 'Registrasi Berhasil, silahkan login!');
             return redirect()->to('/');
-        } else {
-            // session()->flash('notif-error');
+        } catch (\Throwable $th) {
             Alert::warning('Peringatan!', 'Registrasi Gagal, silahkan coba lagi');
             return redirect()->back();
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->to('/');
     }
 }

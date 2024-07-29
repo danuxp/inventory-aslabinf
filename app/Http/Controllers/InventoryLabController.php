@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Alert;
 use Illuminate\Support\Facades\Crypt;
 use Barryvdh\DomPDF\Facade\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class InventoryLabController extends Controller
 {
@@ -146,5 +147,43 @@ class InventoryLabController extends Controller
         } else {
             abort(404);
         }
+    }
+
+    public function cetak_qr(Request $request)
+    {
+        $id = $request->id;
+        $key = $request->key;
+        qrcode('ted');
+        exit;
+        if ($id) {
+            try {
+                // $decrypt_id = Crypt::decryptString($id);
+                $inventoryLab = new InventoryLab();
+                $getdata = $inventoryLab->joinNamaLab($id)[0];
+                $data_inventory = json_decode($getdata->barang, true)[$key];
+                $data = [
+                    'data' => $getdata,
+                    'title' => 'Inventory Lab ' . $getdata->nama,
+                    'barang' => $data_inventory,
+                    'key' => $key,
+                    'id' => $id,
+                ];
+
+
+                $pdf = PDF::loadView('inventory_lab.cetakqr', $data);
+                return $pdf->stream($data['title'] . '.pdf');
+            } catch (\Throwable $th) {
+                abort(404);
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function show()
+    {
+        return QrCode::generate(
+            'Hello, World!',
+        );
     }
 }

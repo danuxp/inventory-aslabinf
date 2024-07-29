@@ -58,11 +58,9 @@ class RegistrasiAsistenControlller extends Controller
 
         $validator = Validator::make($request->all(), $rules, $message);
 
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
 
         $data = [
             'nim' => $request->nim,
@@ -76,7 +74,7 @@ class RegistrasiAsistenControlller extends Controller
         $user = [
             'username' => $request->nim,
             'password' => Hash::make($request->nim),
-            'role' => 1
+            'role' => 2
         ];
 
         if ($cek_id === true) {
@@ -87,7 +85,6 @@ class RegistrasiAsistenControlller extends Controller
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
             }
-            return redirect()->back();
         } else {
             try {
                 $update = Biodata::find($id);
@@ -96,8 +93,8 @@ class RegistrasiAsistenControlller extends Controller
             } catch (\Throwable $th) {
                 Alert::error('Gagal', $th->getMessage());
             }
-            return redirect()->back();
         }
+        return redirect()->back();
     }
 
     protected function destroy(Request $request)

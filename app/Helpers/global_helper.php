@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 function tanggal_indo($source_date)
 {
     $d = strtotime($source_date);
@@ -52,8 +55,20 @@ function jenis_rapat($jenis = '')
         case 'RI':
             return 'Rapat Incidental (bersifat mendadak)';
             break;
-            
+
         default:
             break;
     }
+}
+
+function qrcode($string, $size = 200)
+{
+    $data = QrCode::size($size)
+        ->format('png')
+        // ->merge('/storage/app/aslab-logo.png')
+        ->errorCorrection('M')
+        ->generate($string);
+
+    return response($data)
+        ->header('Content-type', 'image/png');
 }

@@ -99,15 +99,25 @@
     <div class="menu-block customscroll">
         <div class="sidebar-menu">
             <ul id="accordion-menu">
+                <li>
+                    <a href="{{ url('dashboard') }}"
+                        class="dropdown-toggle no-arrow {{ request()->is('dashboard') ? 'active' : '' }}">
+                        <i class="micon dw dw-home"></i>
+                        <span class="mtext">Dashboard</span>
+                    </a>
+                </li>
 
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle">
                         <span class="micon dw dw-folder"></span><span class="mtext">Master Data</span>
                     </a>
                     <ul class="submenu">
-                        <li><a href="/angkatan" class="{{ request()->is('angkatan') ? 'active':'' }}">Angkatan</a></li>
-                        <li><a href="/divisi" class="{{ request()->is('divisi') ? 'active' : '' }}">Divisi</a></li>
-                        <li><a href="/nama-lab" class="{{ request()->is('nama-lab') ? 'active' : '' }}">Nama Lab</a></li>
+                        <li><a href="{{ url('angkatan') }}"
+                                class="{{ request()->is('angkatan') ? 'active' : '' }}">Angkatan</a></li>
+                        <li><a href="{{ url('divisi') }}"
+                                class="{{ request()->is('divisi') ? 'active' : '' }}">Divisi</a></li>
+                        <li><a href="{{ url('nama-lab') }}"
+                                class="{{ request()->is('nama-lab') ? 'active' : '' }}">Nama Lab</a></li>
                     </ul>
                 </li>
 
@@ -116,22 +126,27 @@
                         <span class="micon dw dw-user-12"></span><span class="mtext">Asisten</span>
                     </a>
                     <ul class="submenu">
-                        <li><a href="/registrasi-asisten" class="{{ request()->is('registrasi-asisten') ? 'active':'' }}">Registrasi Asisten</a></li>
-                        <li><a href="/kode-asisten" class="{{ request()->is('kode-asisten') ? 'active' : '' }}">Kode Asisten</a></li>
+                        <li><a href="{{ url('registrasi-asisten') }}"
+                                class="{{ request()->is('registrasi-asisten') ? 'active' : '' }}">Registrasi
+                                Asisten</a>
+                        </li>
+                        <li><a href="{{ url('kode-asisten') }}"
+                                class="{{ request()->is('kode-asisten') ? 'active' : '' }}">Kode Asisten</a></li>
                     </ul>
                 </li>
 
-               
+
 
                 <li>
-                    <a href="/pj-lab" class="dropdown-toggle no-arrow {{ request()->is('pj-lab') ? 'active' : '' }}">
+                    <a href="{{ 'pj-lab' }}"
+                        class="dropdown-toggle no-arrow {{ request()->is('pj-lab') ? 'active' : '' }}">
                         <i class="micon dw dw-key"></i>
                         <span class="mtext">Pj Lab</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/lap-rapat"
+                    <a href="{{ 'lap-rapat' }}"
                         class="dropdown-toggle no-arrow {{ request()->is('lap-rapat') ? 'active' : '' }}">
                         <i class="micon dw dw-notebook"></i>
                         <span class="mtext">Laporan Rapat</span>
@@ -139,7 +154,7 @@
                 </li>
 
                 <li>
-                    <a href="/inventory-lab"
+                    <a href="{{ 'inventory-lab' }}"
                         class="dropdown-toggle no-arrow {{ request()->is('inventory-lab') ? 'active' : '' }}">
                         <i class="micon dw dw-computer-1"></i>
                         <span class="mtext">Inventory Lab</span>

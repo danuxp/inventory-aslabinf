@@ -32,24 +32,24 @@
             <tr>
                 <th>Nama Laboratorium</th>
                 <th>:</th>
-                <th>Lab {{ $data->nama }}</th>
+                <th>LAB {{ Str::upper($data->nama) }}</th>
             </tr>
             <tr>
                 <th>Prodi</th>
                 <th>:</th>
-                <th>Informatika</th>
+                <th>INFORMATIKA</th>
             </tr>
             <tr>
                 <th>Fakultas</th>
                 <th>:</th>
-                <th>Sains dan Teknologi</th>
+                <th>SANINS DAN TEKNOLOGI</th>
             </tr>
         </table>
     </div>
 
 
     <div class="data">
-        <p>Data Inventaris laboratorium</p>
+        <p>Data Inventaris Laboratorium</p>
         <table border="1" width="100%" cellpadding="5" cellspacing="0">
             <thead>
                 <tr>
@@ -69,11 +69,11 @@
                 @foreach ($barang as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item['nama'] }}</td>
-                        <td>{{ $item['jml_baik'] + $item['jml_rusak'] }}</td>
-                        <td>{{ $item['jml_baik'] }}</td>
-                        <td>{{ $item['jml_rusak'] }}</td>
-                        <td>{{ $item['keterangan'] }}</td>
+                        <td>{{ Str::upper($item['nama']) }}</td>
+                        <td align="center">{{ $item['jml_baik'] + $item['jml_rusak'] }}</td>
+                        <td align="center">{{ $item['jml_baik'] }}</td>
+                        <td align="center">{{ $item['jml_rusak'] }}</td>
+                        <td>{{ Str::upper($item['keterangan']) }}</td>
                     </tr>
                 @endforeach
             </tbody>

@@ -5,15 +5,15 @@
         <div class="container d-flex justify-content-between align-items-center">
             <div class="brand-logo">
                 <a href="login.html">
-                    <img src="vendors/images/aslab-logo.png" alt="logo" width="50">
-                    <span class="text-dark">SINAKA</span>
+                    <img src="{{ asset('vendors/images/aslab-logo.png') }}" alt="logo" width="50">
+                    <span class="text-dark">SINAKA (Sistem Inventory Aslab Informatika)</span>
                 </a>
             </div>
-            <div class="login-menu">
+            {{-- <div class="login-menu">
                 <ul>
                     <li><a href="/register">Register</a></li>
                 </ul>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -21,7 +21,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 col-lg-7">
-                    <img src="vendors/images/login-page-img.png" alt="">
+                    <img src="{{ asset('vendors/images/login-page-img.png') }}" alt="">
                 </div>
                 <div class="col-md-6 col-lg-5">
                     <div class="login-box bg-white box-shadow border-radius-10">
@@ -73,11 +73,11 @@
                                     <div class="input-group mb-0">
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
                                     </div>
-                                    <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
+                                    {{-- <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
                                     <div class="input-group mb-0">
                                         <a class="btn btn-outline-primary btn-lg btn-block" href="/register">Register To
                                             Create Account</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </form>

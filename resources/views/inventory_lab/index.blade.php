@@ -49,6 +49,37 @@
     </div>
 
 
+    {{-- Modal cetak qr --}}
+    <div class="modal fade" id="qr-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">Cetak QR Data Lab <span id="nmlab_qr"></span></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Barang</th>
+                                <th>Total</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-qr">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="pd-20 card-box mb-30">
         <h4 class="h4 text-blue">Form Inventory Lab</h4>
 
@@ -97,6 +128,7 @@
                         <th>Nama Lab</th>
                         <th>Data Inventory</th>
                         <th>Cetak</th>
+                        <th>Show Qr</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -109,10 +141,16 @@
                                 <button class="btn btn-primary btn-sm btn-view" id="{{ $row->id }}"
                                     data-nama="{{ $row->nama }}"> <i class="fa fa-archive"></i> View</button>
                             </td>
+
                             <td>
                                 <a class="btn btn-info btn-sm btn-cetak text-light"
                                     href="{{ url('inventory-lab-cetak/' . Crypt::encryptString($row->id)) }}"
                                     target="_blank"> <i class="fa fa-file-pdf-o"></i></a>
+                            </td>
+
+                            <td>
+                                <button class="btn btn-warning btn-sm btn-qr" id="{{ $row->id }}"
+                                    data-nama="{{ $row->nama }}"> <i class="fa fa-qrcode"></i></button>
                             </td>
                             <td>
                                 <button class="btn btn-danger btn-sm btn-hapus" id="{{ $row->id }}"
@@ -176,6 +214,59 @@
             $('#id_addnew_item').val(id);
             $('#view-modal').modal('show');
         })
+
+        $('.btn-qr').on('click', function(e) {
+            e.preventDefault();
+            let id = $(this).attr('id');
+            let nama = $(this).data('nama');
+            get_qr_data(id, nama);
+            $('#qr-modal').modal('show');
+        })
+
+        function get_qr_data(id, nama) {
+            $.ajax({
+                method: "POST",
+                url: "/getIdInventoryLab",
+                data: {
+                    id,
+                    _token: '{{ csrf_token() }}'
+
+                },
+                success: function(res) {
+                    let barang = JSON.parse(res.barang);
+                    let tbody = '';
+
+                    $.each(barang, function(key, row) {
+                        let jml_baik = parseInt(row.jml_baik);
+                        let jml_rusak = parseInt(row.jml_rusak);
+                        let total = jml_baik + jml_rusak;
+                        tbody += `
+                    <tr>
+                        <td>${key+1}</td>
+                        <td>
+                            <input type="text" class="form-control" name="barang_add[]" value="${row.nama.toUpperCase()}" required>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control total_add" value="${total}" readonly>
+                        </td>
+                        <td>
+                            <form method="post" action="/qrcode-lab">
+                                @csrf
+                                <input type="hidden" name="id" value="${id}">
+                                <input type="hidden" name="key" value="${key}">
+                                <button type="submit" class="btn btn-sm btn-primary" data-toggle="toggle" title="Cetak"
+                        id="${key}" data-nama="${row.nama}" data-id="${id}"><i class=" icon-copy fa fa-file-pdf-o" aria-hidden="true"
+                            data-toggle="tooltip" title="Cetak" data-placement="bottom"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    `
+                    })
+                    $('#data-qr').html(tbody);
+                    $('#nmlab_qr').text(nama);
+                }
+            })
+        }
 
 
         function get_data(id, nama) {

@@ -31,6 +31,7 @@ use App\Http\Controllers\RegistrasiAsistenControlller;
 
 // Auth Route
 Route::get('/', [AuthController::class, 'index']);
+Route::get('logout', [AuthController::class, 'logout']);
 Route::get('register', [AuthController::class, 'register']);
 
 Route::post('/register-valid', [AuthController::class, 'store']);
@@ -136,4 +137,5 @@ Route::controller(InventoryLabController::class)->group(function () {
     Route::post('delete-item-lab', 'deleteItem');
     Route::post('hapus-inventory-lab', 'hapus');
     Route::get('inventory-lab-cetak/{id}', 'cetak');
+    Route::post('qrcode-lab', 'cetak_qr');
 });

@@ -8,10 +8,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // dd(session()->all());
         $data = [
             'title' => 'Login',
         ];
         return view('dashboard', $data);
-        
     }
 }
