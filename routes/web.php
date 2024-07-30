@@ -138,4 +138,5 @@ Route::controller(InventoryLabController::class)->group(function () {
     Route::post('hapus-inventory-lab', 'hapus');
     Route::get('inventory-lab-cetak/{id}', 'cetak');
     Route::post('qrcode-lab', 'cetak_qr');
+    Route::get('qr', 'show');
 });

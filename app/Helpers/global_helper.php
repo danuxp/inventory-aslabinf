@@ -63,12 +63,13 @@ function jenis_rapat($jenis = '')
 
 function qrcode($string, $size = 200)
 {
-    $data = QrCode::size($size)
-        ->format('png')
-        // ->merge('/storage/app/aslab-logo.png')
-        ->errorCorrection('M')
-        ->generate($string);
+    // $data = QrCode::size($size)
+    //     ->format('png')
+    //     ->merge('/storage/app/aslab-logo.png')
+    //     ->errorCorrection('M')
+    //     ->generate($string);
 
-    return response($data)
-        ->header('Content-type', 'image/png');
+    // return response($data)
+    //     ->header('Content-type', 'image/png');
+    return QrCode::generate($string);
 }

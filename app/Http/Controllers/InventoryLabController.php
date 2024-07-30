@@ -153,8 +153,6 @@ class InventoryLabController extends Controller
     {
         $id = $request->id;
         $key = $request->key;
-        qrcode('ted');
-        exit;
         if ($id) {
             try {
                 // $decrypt_id = Crypt::decryptString($id);
@@ -168,10 +166,10 @@ class InventoryLabController extends Controller
                     'key' => $key,
                     'id' => $id,
                 ];
+                return view('inventory_lab.cetakqr', $data);
 
-
-                $pdf = PDF::loadView('inventory_lab.cetakqr', $data);
-                return $pdf->stream($data['title'] . '.pdf');
+                // $pdf = PDF::loadView('inventory_lab.cetakqr', $data);
+                // return $pdf->stream($data['title'] . '.pdf');
             } catch (\Throwable $th) {
                 abort(404);
             }

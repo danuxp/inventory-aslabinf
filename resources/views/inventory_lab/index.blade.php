@@ -250,7 +250,7 @@
                             <input type="text" class="form-control total_add" value="${total}" readonly>
                         </td>
                         <td>
-                            <form method="post" action="/qrcode-lab">
+                            <form method="post" action="/qrcode-lab" target="_blank">
                                 @csrf
                                 <input type="hidden" name="id" value="${id}">
                                 <input type="hidden" name="key" value="${key}">

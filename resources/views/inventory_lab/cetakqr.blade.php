@@ -1,3 +1,7 @@
+@php
+    use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +23,38 @@
 
     .qrcode {
         display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .qr {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #0e0e0e;
+        padding: 0.8rem;
+    }
+
+    .label {
+        display: flex;
+        flex-direction: column;
+        margin-top: 0.3rem;
+        line-height: 1rem;
+        text-align: center;
+    }
+
+    .title p {
+        display: inline;
+    }
+
+    small {
+        font-size: .7rem;
+    }
+
+    @media print {
+        .no-print {
+            display: none;
+        }
     }
 </style>
 
@@ -28,9 +64,20 @@
         $qr = $barang['nama'] . '_' . $id . '_' . $key;
     @endphp
     <div class="data">
-        <p>Data QR Inventaris Laboratorium {{ Str::upper($data->nama) }}</p>
+        <div class="title">
+            <p>Data QR Inventaris Laboratorium {{ Str::upper($data->nama) }}</p>
+            <button type="button" onclick="window.print()" class="no-print">Print</button>
+        </div>
+
         <div class="qrcode">
-            @for ($i = 0; $i < $jml; $i++)
+            @for ($i = 1; $i <= $jml; $i++)
+                <div class="qr">
+                    {{ qrcode($qr . $i) }}
+                    <div class="label">
+                        <small>{{ Str::upper($barang['nama']) . '-' . $i }}</small>
+                        <small>{{ $data->nama }}</small>
+                    </div>
+                </div>
             @endfor
         </div>
 
