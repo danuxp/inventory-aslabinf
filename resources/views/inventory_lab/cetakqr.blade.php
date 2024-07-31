@@ -1,7 +1,3 @@
-@php
-    use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
-@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,7 +57,7 @@
 <body>
     @php
         $jml = $barang['jml_baik'] + $barang['jml_rusak'];
-        $qr = $barang['nama'] . '_' . $id . '_' . $key;
+        $qr = $barang['nama'] . '_' . $id . '_' . $key . '_';
     @endphp
     <div class="data">
         <div class="title">
@@ -72,7 +68,11 @@
         <div class="qrcode">
             @for ($i = 1; $i <= $jml; $i++)
                 <div class="qr">
-                    {{ qrcode($qr . $i) }}
+                    @php
+                        $qr_code = base64_encode($qr . $i);
+                    @endphp
+                    {{ qrcode($qr_code) }}
+                    {{ $qr_code }}
                     <div class="label">
                         <small>{{ Str::upper($barang['nama']) . '-' . $i }}</small>
                         <small>{{ $data->nama }}</small>

@@ -167,9 +167,6 @@ class InventoryLabController extends Controller
                     'id' => $id,
                 ];
                 return view('inventory_lab.cetakqr', $data);
-
-                // $pdf = PDF::loadView('inventory_lab.cetakqr', $data);
-                // return $pdf->stream($data['title'] . '.pdf');
             } catch (\Throwable $th) {
                 abort(404);
             }
@@ -178,10 +175,19 @@ class InventoryLabController extends Controller
         }
     }
 
-    public function show()
+    public function show_qr($param, InventoryLab $inventoryLab)
     {
-        return QrCode::generate(
-            'Hello, World!',
-        );
+        $get_qr = base64_decode($param);
+        $qrcode = explode('_', $get_qr);
+        $inventory = $inventoryLab->joinNamalab($qrcode[1])[0];
+        $data_barang = json_decode($inventory->barang, true);
+
+        $data = [
+            'title' => 'View Qr Code',
+            'data' => $inventory,
+            'barang' => $data_barang[$qrcode[2]],
+            'key' => $qrcode[3]
+        ];
+        return view('inventory_lab.view_qrcode', $data);
     }
 }

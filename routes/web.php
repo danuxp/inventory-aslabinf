@@ -34,14 +34,14 @@ Route::get('/', [AuthController::class, 'index']);
 Route::get('logout', [AuthController::class, 'logout']);
 Route::get('register', [AuthController::class, 'register']);
 
-Route::post('/register-valid', [AuthController::class, 'store']);
-Route::post('/login-valid', [AuthController::class, 'loginValid']);
+Route::post('register-valid', [AuthController::class, 'store']);
+Route::post('login-valid', [AuthController::class, 'loginValid']);
 Route::get('reload-captcha', [AuthController::class, 'reloadCaptcha']);
 
 
 
 // Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('dashboard', [DashboardController::class, 'index']);
 
 
 // Angkatan
@@ -138,5 +138,5 @@ Route::controller(InventoryLabController::class)->group(function () {
     Route::post('hapus-inventory-lab', 'hapus');
     Route::get('inventory-lab-cetak/{id}', 'cetak');
     Route::post('qrcode-lab', 'cetak_qr');
-    Route::get('qr', 'show');
+    Route::get('qrcode-view/{param}', 'show_qr');
 });

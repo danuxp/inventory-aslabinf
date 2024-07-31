@@ -17,15 +17,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="vendors/styles/core.css">
-    <link rel="stylesheet" type="text/css" href="vendors/styles/icon-font.min.css">
-    <link rel="stylesheet" type="text/css" href="src/plugins/datatables/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="src/plugins/datatables/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/core.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/icon-font.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('src/plugins/datatables/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('src/plugins/datatables/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/styles/style.css') }}">
 
-    <link rel="stylesheet" type="text/css" href="src/plugins/datetimepicker/datetimepicker.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/datetimepicker/datetimepicker.css') }}">
 
-    <link rel="stylesheet" type="text/css" href="src/styles/loader.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/styles/loader.css') }}">
 
 
 </head>
@@ -44,7 +46,7 @@
             @yield('content')
 
             {{-- Footer Component --}}
-            @include('partials.footer')
+            {{-- @include('partials.footer') --}}
         </div>
     </div>
 
@@ -52,30 +54,30 @@
 
 
     {{-- Js --}}
-    <script src="src/scripts/jquery.min.js"></script>
+    <script src="{{ asset('src/scripts/jquery.min.js') }}"></script>
 
-    <script src="vendors/scripts/core.js"></script>
-    <script src="vendors/scripts/script.min.js"></script>
-    <script src="vendors/scripts/process.js"></script>
-    <script src="vendors/scripts/layout-settings.js"></script>
-    <script src="src/plugins/apexcharts/apexcharts.min.js"></script>
-    <script src="src/plugins/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
-    <script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
-    <script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+    <script src="{{ asset('vendors/scripts/core.js') }}"></script>
+    <script src="{{ asset('vendors/scripts/script.min.js') }}"></script>
+    <script src="{{ asset('vendors/scripts/process.js') }}"></script>
+    <script src="{{ asset('vendors/scripts/layout-settings.js') }}"></script>
+    <script src="{{ asset('src/plugins/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/datatables/js/responsive.bootstrap4.min.js') }}"></script>
 
     {{-- plugins --}}
-    <script src="src/plugins/datetimepicker/moment.min.js"></script>
-    <script src="src/plugins/datetimepicker/datetimepicker.js"></script>
-    <script src="src/plugins/ckeditor/ckeditor.js"></script>
+    <script src="{{ asset('src/plugins/datetimepicker/moment.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/datetimepicker/datetimepicker.js') }}"></script>
+    <script src="{{ asset('src/plugins/ckeditor/ckeditor.js') }}"></script>
 
 
 
-    <script src="src/scripts/custom.js"></script>
+    <script src="{{ asset('src/scripts/custom.js') }}"></script>
 
-    <script src="vendors/scripts/datatable-setting.js"></script>
+    <script src="{{ asset('vendors/scripts/datatable-setting.js') }}"></script>
 
-    <script src="vendors/scripts/sweetalert.js"></script>
+    <script src="{{ asset('vendors/scripts/sweetalert.js') }}"></script>
     <script>
         // auto close alert
         $(document).ready(function() {
