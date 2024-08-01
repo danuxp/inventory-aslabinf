@@ -72,7 +72,6 @@
                         $qr_code = base64_encode($qr . $i);
                     @endphp
                     {{ qrcode($qr_code) }}
-                    {{ $qr_code }}
                     <div class="label">
                         <small>{{ Str::upper($barang['nama']) . '-' . $i }}</small>
                         <small>{{ $data->nama }}</small>

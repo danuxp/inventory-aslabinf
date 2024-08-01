@@ -33,6 +33,8 @@ return new class extends Migration
             $table->text('github')->nullable();
             $table->text('linkedin')->nullable();
             $table->string('status', 1)->nullable();
+            $table->text('foto')->nullable();
+            $table->string('profesi', 50)->nullable();
             $table->timestamps();
         });
     }

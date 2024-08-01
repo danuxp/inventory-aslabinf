@@ -12,6 +12,7 @@ use App\Http\Controllers\KodeAsistenController;
 use App\Http\Controllers\LapRapatController;
 use App\Http\Controllers\NamaLabController;
 use App\Http\Controllers\PjLabController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrasiAsistenControlller;
 
 /*
@@ -65,10 +66,6 @@ Route::controller(KodeAsistenController::class)->group(function () {
     Route::post('hapus-kode', 'destroy');
 });
 
-// Profile
-Route::controller(BiodataController::class)->group(function () {
-    Route::get('profile', 'profile');
-});
 
 // Nama Lab
 Route::controller(NamaLabController::class)->group(function () {
@@ -139,4 +136,10 @@ Route::controller(InventoryLabController::class)->group(function () {
     Route::get('inventory-lab-cetak/{id}', 'cetak');
     Route::post('qrcode-lab', 'cetak_qr');
     Route::get('qrcode-view/{param}', 'show_qr');
+});
+
+
+// Profile
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('profile', 'index');
 });

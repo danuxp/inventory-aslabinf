@@ -6,7 +6,7 @@
             <div class="brand-logo">
                 <a href="login.html">
                     <img src="{{ asset('vendors/images/aslab-logo.png') }}" alt="logo" width="50">
-                    <span class="text-dark">SINAKA (Sistem Inventory Aslab Informatika)</span>
+                    <span class="text-dark">{{ env('APP_NAME') }}</span>
                 </a>
             </div>
             {{-- <div class="login-menu">
