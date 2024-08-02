@@ -16,11 +16,13 @@ class InventoryLabController extends Controller
 {
     public function index()
     {
-        $invlab = new InventoryLab();
+
+        return QrCode::generate("haii semua");
+
         $data = [
             "title" => "Inventory Lab",
             "nama_lab" => NamaLab::all(),
-            "data" => $invlab->joinNamalab()
+            "data" => InventoryLab::all()
         ];
         return view('inventory_lab.index', $data);
     }
@@ -131,11 +133,11 @@ class InventoryLabController extends Controller
         if ($id) {
             try {
                 $decrypt_id = Crypt::decryptString($id);
-                $inventoryLab = new InventoryLab();
-                $getdata = $inventoryLab->joinNamaLab($decrypt_id)[0];
+                // $inventoryLab = new InventoryLab();
+                $getdata = InventoryLab::find($decrypt_id);
                 $data = [
                     'data' => $getdata,
-                    'title' => 'Inventory Lab ' . $getdata->nama,
+                    'title' => 'Inventory Lab ' . $getdata->lab->nama,
                     'barang' => json_decode($getdata->barang, true)
                 ];
 
@@ -155,13 +157,11 @@ class InventoryLabController extends Controller
         $key = $request->key;
         if ($id) {
             try {
-                // $decrypt_id = Crypt::decryptString($id);
-                $inventoryLab = new InventoryLab();
-                $getdata = $inventoryLab->joinNamaLab($id)[0];
+                $getdata = InventoryLab::find($id);
                 $data_inventory = json_decode($getdata->barang, true)[$key];
                 $data = [
                     'data' => $getdata,
-                    'title' => 'Inventory Lab ' . $getdata->nama,
+                    'title' => 'Inventory Lab ' . $getdata->lab->nama,
                     'barang' => $data_inventory,
                     'key' => $key,
                     'id' => $id,
@@ -175,11 +175,11 @@ class InventoryLabController extends Controller
         }
     }
 
-    public function show_qr($param, InventoryLab $inventoryLab)
+    public function show_qr($param)
     {
         $get_qr = base64_decode($param);
         $qrcode = explode('_', $get_qr);
-        $inventory = $inventoryLab->joinNamalab($qrcode[1])[0];
+        $inventory = InventoryLab::find($qrcode[1]);
         $data_barang = json_decode($inventory->barang, true);
 
         $data = [

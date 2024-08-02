@@ -61,7 +61,7 @@
     @endphp
     <div class="data">
         <div class="title">
-            <p>Data QR Inventaris Laboratorium {{ Str::upper($data->nama) }}</p>
+            <p>Data QR Inventaris Laboratorium {{ Str::upper($data->lab->nama) }}</p>
             <button type="button" onclick="window.print()" class="no-print">Print</button>
         </div>
 

@@ -136,10 +136,10 @@
                     @foreach ($data as $row)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $row->nama }}</td>
+                            <td>{{ $row->lab->nama }}</td>
                             <td>
                                 <button class="btn btn-primary btn-sm btn-view" id="{{ $row->id }}"
-                                    data-nama="{{ $row->nama }}"> <i class="fa fa-archive"></i> View</button>
+                                    data-nama="{{ $row->lab->nama }}"> <i class="fa fa-archive"></i> View</button>
                             </td>
 
                             <td>
@@ -150,11 +150,11 @@
 
                             <td>
                                 <button class="btn btn-warning btn-sm btn-qr" id="{{ $row->id }}"
-                                    data-nama="{{ $row->nama }}"> <i class="fa fa-qrcode"></i></button>
+                                    data-nama="{{ $row->lab->nama }}"> <i class="fa fa-qrcode"></i></button>
                             </td>
                             <td>
                                 <button class="btn btn-danger btn-sm btn-hapus" id="{{ $row->id }}"
-                                    data-nama="{{ $row->nama }}"> <i class="fa fa-trash"></i></button>
+                                    data-nama="{{ $row->lab->nama }}"> <i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                     @endforeach

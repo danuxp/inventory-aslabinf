@@ -14,7 +14,7 @@
     <div class="row mt-5">
         <div class="col-md-6 mx-auto">
             <div class="card card-box">
-                <h4 class="card-header font-weight-bold">LAB {{ $data->nama }}</h4>
+                <h4 class="card-header font-weight-bold">LAB {{ $data->lab->nama }}</h4>
                 <div class="card-body">
 
 

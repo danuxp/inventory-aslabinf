@@ -32,7 +32,7 @@
             <tr>
                 <th>Nama Laboratorium</th>
                 <th>:</th>
-                <th>LAB {{ Str::upper($data->nama) }}</th>
+                <th>LAB {{ Str::upper($data->lab->nama) }}</th>
             </tr>
             <tr>
                 <th>Prodi</th>
@@ -57,7 +57,7 @@
                     <td rowspan="2">Nama Barang</td>
                     <td rowspan="2">Jumlah</td>
                     <td colspan="2" align="center">Kondisi saat ini</td>
-                    <td rowspan="2">Keterangan</td>
+                    <td rowspan="2" align="center">Keterangan</td>
                 </tr>
                 <tr>
                     <td>Kondisi Rusak</td>
