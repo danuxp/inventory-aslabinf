@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('no_wa', 13)->nullable();
             $table->text('bio')->nullable();
             $table->integer('angkatan');
-            $table->integer('kode_divisi')->nullable();
+            $table->integer('divisi_id')->nullable();
             $table->text('hobi')->nullable();
             $table->string('email', 50)->nullable();
             $table->text('facebook')->nullable();

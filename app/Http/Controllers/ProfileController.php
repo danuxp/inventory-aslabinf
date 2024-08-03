@@ -9,8 +9,8 @@ class ProfileController extends Controller
     public function index()
     {
         $data = [
-            'title' => 'Setting'
+            'title' => 'Profile'
         ];
-        return view('setting.index', $data);
+        return view('profile.index', $data);
     }
 }

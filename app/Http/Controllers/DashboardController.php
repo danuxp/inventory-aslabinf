@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // dd(session()->all());
+        // dd(session('id'));
         $data = [
             'title' => 'Login',
         ];

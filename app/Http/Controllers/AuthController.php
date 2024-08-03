@@ -72,8 +72,12 @@ class AuthController extends Controller
         ];
 
         if (Auth::attempt($data_login)) {
-            Auth::user();
-            // $request->session([]);
+            $user = Auth::user();
+            session([
+                'id' => $user->id,
+                'username' => $user->username,
+                'role' => $user->role,
+            ]);
             Alert::success('Berhasil', 'Login Berhasil!');
             return redirect()->to('/dashboard');
         } else {
